@@ -2,6 +2,8 @@ import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { ScreenContent } from "components/ScreenContent";
+import AntDesign from '@expo/vector-icons/AntDesign';
 
 import {
   HomeScreen,
@@ -36,7 +38,6 @@ export default function BottomTabs() {
           ),
         }}
       />
-
       <Tab.Screen
         name="Issues"
         component={IssuesScreen}
@@ -48,6 +49,17 @@ export default function BottomTabs() {
               size={size}
               color={color}
             />
+          ),
+        }}
+      />
+
+      <Tab.Screen
+        name="screen"
+        component={ScreenContent}
+        options={{
+          tabBarLabel: "Report",
+          tabBarIcon: ({ color, size }) => (
+          <AntDesign name="plus-circle" size={size} color={color} />
           ),
         }}
       />
