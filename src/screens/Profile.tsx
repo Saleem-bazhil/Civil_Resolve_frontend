@@ -4,7 +4,7 @@ import React from 'react'
 const Profile = () => {
   return (
     <View>
-      <Text>Profile</Text>
+      <Text className='bg-brand-primary text-blue-500'>Profile</Text>
     </View>
   )
 }

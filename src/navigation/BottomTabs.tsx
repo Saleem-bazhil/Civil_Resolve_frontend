@@ -23,7 +23,7 @@ export default function BottomTabs() {
           height: 60 + insets.bottom,
           paddingBottom: insets.bottom,
         },
-        tabBarActiveTintColor: "#1d4ed8",
+        tabBarActiveTintColor: " hsl(221 83% 28%)",
         tabBarInactiveTintColor: "#9ca3af",
       }}
     >
