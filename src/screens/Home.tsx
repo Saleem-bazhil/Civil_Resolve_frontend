@@ -10,7 +10,7 @@ const Home = () => {
       contentContainerStyle={{ padding: 26 }}
     >
       {/* Header */}
-      <View className="mb-6">
+      <View className="my-4">
         <Text className="text-4xl font-bold text-black">
           Hello, Citizen 👋
         </Text>

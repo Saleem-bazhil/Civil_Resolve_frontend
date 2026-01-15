@@ -1,10 +1,9 @@
 import React from "react";
-import { View, Text, Platform } from "react-native";
+import { View, Platform } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { ScreenContent } from "components/ScreenContent";
-import AntDesign from '@expo/vector-icons/AntDesign';
+import AntDesign from "@expo/vector-icons/AntDesign";
+
 import {
   HomeScreen,
   IssuesScreen,
@@ -12,53 +11,61 @@ import {
   ProfileScreen,
 } from "../imports/Imports";
 
+import { ScreenContent } from "@/components/ScreenContent";// IMPORTANT: real screen
+
 const Tab = createBottomTabNavigator();
 
 export default function BottomTabs() {
-  const insets = useSafeAreaInsets();
-  const PRIMARY_COLOR = " hsl(221 83% 28%)"
+  const PRIMARY_COLOR = "hsl(221, 83%, 28%)"; // FIXED
 
   return (
     <Tab.Navigator
       screenOptions={{
         headerShown: true,
         tabBarShowLabel: true,
+
         tabBarStyle: {
           position: "absolute",
-          backgroundColor: "#ffffff",
-          height: Platform.OS === "ios" ? 85 : 70,
-          paddingBottom: Platform.OS === "ios" ? 25 : 10,
-          paddingTop: 10,
+          backgroundColor: "#f8fafc", // softer than pure white
+          height: Platform.OS === "ios" ? 88 : 72,
+          paddingBottom: Platform.OS === "ios" ? 24 : 10,
+          paddingTop: 8,
           borderTopWidth: 0,
-          elevation: 10,
+
+          // Premium elevation
+          elevation: 16,
           shadowColor: "#000",
-          shadowOffset: { width: 0, height: -2 },
-          shadowOpacity: 0.1,
-          shadowRadius: 4,
+          shadowOffset: { width: 0, height: -4 },
+          shadowOpacity: 0.12,
+          shadowRadius: 8,
         },
+
         tabBarLabelStyle: {
-          fontSize: 10,
+          fontSize: 11,
           fontWeight: "500",
-          marginTop: -5,
+          marginTop: -4,
         },
+
         tabBarActiveTintColor: PRIMARY_COLOR,
         tabBarInactiveTintColor: "#9ca3af",
       }}
     >
+      {/* Home */}
       <Tab.Screen
         name="Home"
         component={HomeScreen}
         options={{
-          tabBarLabel: "Home",
           tabBarIcon: ({ color, focused }) => (
-            <Ionicons 
-              name={focused ? "home" : "home-outline"} 
-              size={24} 
-              color={color} 
+            <Ionicons
+              name={focused ? "home" : "home-outline"}
+              size={24}
+              color={color}
             />
           ),
         }}
       />
+
+      {/* Issues */}
       <Tab.Screen
         name="Issues"
         component={IssuesScreen}
@@ -74,26 +81,37 @@ export default function BottomTabs() {
         }}
       />
 
+      {/* Center FAB */}
       <Tab.Screen
-        name="screen"
+        name="Report"
         component={ScreenContent}
         options={{
-          tabBarLabel: "Report",
-          tabBarIcon: ({ focused }) => (
-            <View className="absolute -top-5 items-center justify-center">
-              <View className="w-14 h-14 bg-blue-900 rounded-full items-center justify-center shadow-lg shadow-blue-900/40 border-[3px] border-white">
-                <AntDesign name="plus" size={26} color="white" />
+          tabBarLabel: "",
+          tabBarIcon: () => (
+            <View className="absolute -top-6 items-center justify-center">
+              <View
+                className="w-16 h-16 rounded-full items-center justify-center border-[4px] border-white"
+                style={{
+                  backgroundColor: PRIMARY_COLOR,
+                  shadowColor: PRIMARY_COLOR,
+                  shadowOffset: { width: 0, height: 6 },
+                  shadowOpacity: 0.35,
+                  shadowRadius: 10,
+                  elevation: 20,
+                }}
+              >
+                <AntDesign name="plus" size={28} color="white" />
               </View>
             </View>
           ),
         }}
       />
 
+      {/* Alerts */}
       <Tab.Screen
         name="Alerts"
         component={AlertScreen}
         options={{
-          tabBarLabel: "Alerts",
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
               name={focused ? "notifications" : "notifications-outline"}
@@ -104,16 +122,16 @@ export default function BottomTabs() {
         }}
       />
 
+      {/* Profile */}
       <Tab.Screen
         name="Profile"
         component={ProfileScreen}
         options={{
-          tabBarLabel: "Profile",
           tabBarIcon: ({ color, focused }) => (
-            <Ionicons 
-              name={focused ? "person" : "person-outline"} 
-              size={24} 
-              color={color} 
+            <Ionicons
+              name={focused ? "person" : "person-outline"}
+              size={24}
+              color={color}
             />
           ),
         }}
