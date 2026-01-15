@@ -1,17 +1,17 @@
-import { StatusBar } from 'expo-status-bar';
-import RootNavigator from './src/navigation/RootNavigator';
-import { NavigationContainer } from '@react-navigation/native';
+import { StatusBar } from "expo-status-bar";
+import { NavigationContainer } from "@react-navigation/native";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
-import './global.css';
+import RootNavigator from "./src/navigation/RootNavigator";
+import "./global.css";
 
 export default function App() {
   return (
-    <>
-    <NavigationContainer>
-     <RootNavigator/>
-      <StatusBar style="auto" />
-    </NavigationContainer>
-
-    </>
+    <SafeAreaProvider>
+      <NavigationContainer>
+        <RootNavigator />
+        <StatusBar style="auto" />
+      </NavigationContainer>
+    </SafeAreaProvider>
   );
 }
