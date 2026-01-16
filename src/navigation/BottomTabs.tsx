@@ -11,12 +11,12 @@ import {
   ProfileScreen,
 } from "../imports/Imports";
 
-import { ScreenContent } from "@/components/ScreenContent";// IMPORTANT: real screen
+import { ScreenContent } from "@/components/ScreenContent";
 
 const Tab = createBottomTabNavigator();
 
 export default function BottomTabs() {
-  const PRIMARY_COLOR = "hsl(221, 83%, 28%)"; // FIXED
+  const PRIMARY_COLOR = "hsl(221, 83%, 28%)";
 
   return (
     <Tab.Navigator
@@ -26,7 +26,7 @@ export default function BottomTabs() {
 
         tabBarStyle: {
           position: "absolute",
-          backgroundColor: "#f8fafc", // softer than pure white
+          backgroundColor: "#f8fafc",
           height: Platform.OS === "ios" ? 88 : 72,
           paddingBottom: Platform.OS === "ios" ? 24 : 10,
           paddingTop: 8,
@@ -81,7 +81,7 @@ export default function BottomTabs() {
         }}
       />
 
-      {/* Center FAB */}
+      {/* plus tab  */}
       <Tab.Screen
         name="Report"
         component={ScreenContent}

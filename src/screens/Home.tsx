@@ -2,12 +2,15 @@ import { View, Text, ScrollView, Pressable } from "react-native";
 import React from "react";
 import ReportCard from "../screenComponents/HomeScreenComponents/ReportCard"
 import IssueCard from "../screenComponents/HomeScreenComponents/IssueCard";
+import MyIssueCard from "../screenComponents/IssueScreenComponents/MyIssueCard";
+import {Ionicons} from "@expo/vector-icons";
 
 const Home = () => {
   return (
     <ScrollView
       className="bg-background-bgcolor"
-      contentContainerStyle={{ padding: 26 }}
+      contentContainerStyle={{ padding: 26, paddingBottom: 90, }}
+
     >
       {/* Header */}
       <View className="my-4">
@@ -21,6 +24,38 @@ const Home = () => {
 
       <ReportCard />
       <IssueCard />
+
+      {/* Recent Issue  */}
+
+<View className="mt-10 mb-5 flex-row items-center justify-between">
+  {/* Section Title */}
+  <Text className="text-[18px] font-semibold text-gray-900 tracking-tight">
+    Recent Issues
+  </Text>
+
+  {/* Action */}
+  <Pressable
+    android_ripple={{ color: "#E5E7EB" }}
+    className="flex-row items-center px-2 py-1 rounded-md"
+  >
+    <Text className="text-blue-600 text-sm font-medium mr-1">
+      View All
+    </Text>
+    <Ionicons
+      name="chevron-forward"
+      size={14}
+      color="#2563EB"
+    />
+  </Pressable>
+</View>
+
+{/* Cards */}
+<MyIssueCard />
+<MyIssueCard status="PENDING" />
+<MyIssueCard status="RESOLVED" />
+
+
+
     </ScrollView>
   );
 };
