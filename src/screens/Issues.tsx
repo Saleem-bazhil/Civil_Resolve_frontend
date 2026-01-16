@@ -1,6 +1,7 @@
 import { View, Text, ScrollView } from 'react-native'
 import React from 'react'
-import  SearchBar  from '../screenComponents/IssueScreenComponents/SearchBar'
+import SearchBar from '../screenComponents/IssueScreenComponents/SearchBar'
+import MyIssueCard from '../screenComponents/IssueScreenComponents/MyIssueCard'
 
 const Issues = () => {
   return (
@@ -8,8 +9,14 @@ const Issues = () => {
       className="bg-background-bgcolor"
       contentContainerStyle={{ padding: 26, paddingBottom: 90, }}
     >
-      <SearchBar/>
-      <Text>Issues</Text>
+      <SearchBar />
+
+      <MyIssueCard />
+      <MyIssueCard status="PENDING" />
+      <MyIssueCard status="RESOLVED" />
+       <MyIssueCard />
+      <MyIssueCard status="PENDING" />
+      <MyIssueCard status="RESOLVED" />
     </ScrollView>
 
   )

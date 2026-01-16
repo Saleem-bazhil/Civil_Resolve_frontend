@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 const SearchBar = () => {
   return (
-    <View className="mt-3">
+    <View className="my-5">
       <View className="flex-row items-center bg-white border border-gray-200 rounded-2xl px-4 py-3">
         
         {/* Search Icon */}
