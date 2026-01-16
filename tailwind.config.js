@@ -10,11 +10,11 @@ module.exports = {
       colors: {
         /* Primary - Civic Trust Blue */
         primary: 'hsl(221, 83%, 28%)',
-        'primary-foreground': 'hsl(210, 40%, 98%)',
+        primaryforeground: 'hsl(210, 40%, 98%)',
 
         /* Secondary - Action Green */
         secondary: 'hsl(160, 84%, 39%)',
-        'secondary-foreground': 'hsl(210, 40%, 98%)',
+        secondaryforeground: 'hsl(210, 40%, 98%)',
 
         /* Backgrounds */
         background: 'hsl(210, 20%, 98%)',

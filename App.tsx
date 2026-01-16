@@ -7,13 +7,13 @@ import "./global.css";
 
 export default function App() {
   return (
-    
-      <SafeAreaProvider>
+
+    <SafeAreaProvider>
       <NavigationContainer>
         <RootNavigator />
         <StatusBar style="auto" />
       </NavigationContainer>
     </SafeAreaProvider>
-  
+
   );
 }

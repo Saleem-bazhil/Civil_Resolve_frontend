@@ -1,6 +1,7 @@
 import { View, Text, Pressable } from "react-native";
 import React from "react";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 type IssueStatus = "IN_PROGRESS" | "PENDING" | "RESOLVED";
 
@@ -32,10 +33,17 @@ interface MyIssueCardProps {
 const MyIssueCard: React.FC<MyIssueCardProps> = ({
   status = "IN_PROGRESS",
 }) => {
+   const navigation = useNavigation();
   const config = STATUS_CONFIG[status];
 
   return (
     <Pressable
+    onPress={()=>{
+      navigation.getParent()
+      ?.navigate("IssueDetail",{
+        id:"1"
+      });
+    }}
       className="flex-row bg-white rounded-2xl overflow-hidden mb-5 "
       android_ripple={{ color: "#E5E7EB" }}
       style={({ pressed }) => [
