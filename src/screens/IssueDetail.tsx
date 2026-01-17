@@ -2,6 +2,7 @@ import { View, ScrollView } from "react-native";
 import React from "react";
 import IssueHeader from "../screenComponents/IssueDetailScreenComponents/IssueHeader";
 import PhotoCard from "../screenComponents/IssueDetailScreenComponents/PhotoCard";
+import IssueDescription from "../screenComponents/IssueDetailScreenComponents/IssueDescription";
 
 const IssueDetail = () => {
   return (
@@ -10,6 +11,7 @@ const IssueDetail = () => {
         <IssueHeader />
 
         <PhotoCard/>
+        <IssueDescription/>
       </ScrollView>
     </View>
   );
