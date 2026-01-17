@@ -11,7 +11,7 @@ const RootNavigator = () => {
         <Stack.Navigator>
             <Stack.Screen name="MainTabs" component={BottomTabs} options={{ headerShown: false }} />
             <Stack.Screen name="Screen" component={ScreenContent} options={{ headerShown: true }} />
-            <Stack.Screen name='IssueDetail' component={IssueDetailScreen} options={{headerShown:true}}/>
+            <Stack.Screen name='IssueDetail' component={IssueDetailScreen} options={{headerShown:false}}/>
             
         </Stack.Navigator>  
     )

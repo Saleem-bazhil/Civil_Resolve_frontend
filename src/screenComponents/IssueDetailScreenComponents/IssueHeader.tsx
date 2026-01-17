@@ -4,7 +4,7 @@ import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 
 const IssueHeader = () => {
     return (
-        <View className="mt-6">
+        <View className="">
             <View className="bg-white rounded-2xl border border-gray-100 shadow-md shadow-gray-200/40 overflow-hidden">
 
                 <View className="p-5">

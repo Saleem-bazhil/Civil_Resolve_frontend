@@ -4,8 +4,8 @@ import { Ionicons, Feather } from '@expo/vector-icons';
 
 const PhotoCard = () => {
     return (
-        <View className="mt-6">
-            <View className="bg-white rounded-[24px] border border-gray-100 shadow-lg shadow-gray-200/50 overflow-hidden">
+        <View className="my-5">
+            <View className="bg-white rounded-2xl border border-gray-100 shadow-lg shadow-gray-200/50 overflow-hidden">
 
                 <View className="p-5 pb-3 flex-row justify-between items-center">
                     <View className="flex-row items-center space-x-2">
