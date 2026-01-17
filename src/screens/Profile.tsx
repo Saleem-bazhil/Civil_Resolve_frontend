@@ -1,11 +1,17 @@
-import { View, Text } from 'react-native'
+import { View, Text, ScrollView } from 'react-native'
 import React from 'react'
+import ProfileCard from '../screenComponents/ProfileScreenComponents/ProfileCard'
 
 const Profile = () => {
   return (
-    <View>
-      <Text className='bg-brand-primary text-blue-500'>Profile</Text>
-    </View>
+    <ScrollView
+      className="bg-background-bgcolor"
+      contentContainerStyle={{ padding: 26, paddingBottom: 90, }}
+
+    >
+      <ProfileCard />
+    </ScrollView>
+
   )
 }
 
