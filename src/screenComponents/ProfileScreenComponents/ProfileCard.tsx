@@ -11,9 +11,9 @@ const COLORS = {
 
 const ProfileCard = () => {
     return (
-        <View className="flex-1 justify-center rounded-[32px] bg-gray-50">
+        <View className="flex-1 justify-center rounded-[28px] bg-gray-50">
             <View
-                className="w-full bg-white rounded-[32px] overflow-hidden shadow-xl"
+                className="w-full bg-white rounded-[28px] overflow-hidden shadow-xl"
                 style={{ elevation: 10 }}
             >
 
