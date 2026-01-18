@@ -87,6 +87,7 @@ export default function BottomTabs() {
         name="Report a Problem"
         component={ReportIssueScreen}
         options={{
+          // headerShown:false,
           tabBarLabel: "",
           tabBarIcon: () => (
             <View className="absolute -top-6 items-center justify-center">
