@@ -9,6 +9,7 @@ import {
   IssuesScreen,
   AlertScreen,
   ProfileScreen,
+  ReportIssueScreen,
 } from "../imports/Imports";
 
 import { ScreenContent } from "@/components/ScreenContent";
@@ -83,8 +84,8 @@ export default function BottomTabs() {
 
       {/* plus tab  */}
       <Tab.Screen
-        name="Report"
-        component={ScreenContent}
+        name="Report a Problem"
+        component={ReportIssueScreen}
         options={{
           tabBarLabel: "",
           tabBarIcon: () => (
