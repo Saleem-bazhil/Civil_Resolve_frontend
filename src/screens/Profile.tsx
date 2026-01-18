@@ -7,7 +7,7 @@ import SignOut from '../screenComponents/ProfileScreenComponents/SignOut'
 const Profile = () => {
   return (
     <ScrollView
-      className="bg-background-bgcolor"
+      className="bg-background"
       contentContainerStyle={{ padding: 26, paddingBottom: 100, }}
 
     >
