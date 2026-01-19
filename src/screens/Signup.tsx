@@ -201,7 +201,7 @@ const Signup = () => {
                         </View>
                         <View className="my-5 flex-row justify-center mr-2">
                             <Text className="font-medium text-gray-500">Already have an account? </Text>
-                            <Pressable onPress={() => navigation.navigate("Login")}>
+                            <Pressable onPress={() => navigation.navigate("login")}>
                                 <Text className="font-bold text-blue-600">Log In</Text>
                             </Pressable>
                         </View>
@@ -220,7 +220,7 @@ const Signup = () => {
                     }}
                 >
                     <Pressable
-                        onPress={() => navigation.navigate("MainTabs")}
+                        onPress={() => navigation.navigate("login")}
                         className="rounded-2xl overflow-hidden"
                     >
                         <LinearGradient

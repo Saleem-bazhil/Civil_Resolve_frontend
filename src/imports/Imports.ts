@@ -8,3 +8,4 @@ export {default as DescribeFormIssue} from "../screenComponents/ReportScreenComp
 export {default as AddressFormIssue} from "../screenComponents/ReportScreenComponents/AddressForm";
 export {default as ReviewPage} from "../screenComponents/ReportScreenComponents/ReviewPage";
 export {default as SignupScreen} from "../screens/Signup";
+export {default as LoginScreen} from "../screens/Login";
