@@ -4,3 +4,4 @@ export {default as AlertScreen} from '../screens/Alert';
 export {default as ProfileScreen} from '../screens/Profile';
 export {default as IssueDetailScreen} from "../screens/IssueDetail";
 export {default as ReportIssueScreen} from "../screens/ReportIssue";
+export {default as DescribeFormIssue} from "../screenComponents/ReportScreenComponents/DescribeForm"

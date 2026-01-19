@@ -10,6 +10,7 @@ import {
     Building2,
     ClipboardList,
 } from "lucide-react-native";
+import { useNavigation } from "@react-navigation/native";
 
 const CATEGORIES = [
     {
@@ -72,6 +73,7 @@ const CATEGORIES = [
 
 const ReportCardCategory = () => {
     const [selected, setSelected] = useState("water");
+    const navigation = useNavigation<any>();
 
     return (
         <View className="flex-row flex-wrap -m-2">
@@ -82,7 +84,12 @@ const ReportCardCategory = () => {
                     <Pressable
                         key={key}
                         className="w-1/2 p-2"
-                        onPress={() => setSelected(key)}
+                        onPress={() => {
+                            setSelected(key);
+                            navigation.navigate("DescribeForm", {
+                                category: key,
+                            });
+                        }}
                         accessibilityRole="button"
                         accessibilityState={{ selected: isActive }}
                         style={({ pressed }) => ({
