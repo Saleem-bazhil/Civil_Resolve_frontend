@@ -12,18 +12,25 @@ import React, { useState } from "react";
 import ImagePickerField from "./ImagePickerField";
 import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 const DescribeForm = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [images, setImages] = useState<any[]>([]);
   const [focusedField, setFocusedField] = useState<string | null>(null);
+  const navigation = useNavigation<any>();
 
   const MAX_DESC_LENGTH = 500;
 
-  const submitDemo = () => {
-    console.log({ title, description, images });
-  };
+const submitDemo = () => {
+  navigation.navigate("AddressForm", {
+    title,
+    description,
+    images,
+  });
+};
+
 
   return (
     <View className="flex-1 bg-gray-50">
