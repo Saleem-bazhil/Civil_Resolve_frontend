@@ -68,52 +68,63 @@ const ImagePickerField = ({ max = 3, onChange }: Props) => {
     };
 
     return (
-        <View>
-            {/* Label */}
-            <Text className="font-semibold mb-2">Photos (Optional)</Text>
+     <View className="mb-4">
+      {/* Header Row */}
+      <View className="flex-row justify-between items-center mb-3">
+        <Text className="font-bold text-gray-800 text-base">Photos</Text>
+        <Text className="text-xs text-gray-400 font-medium">
+          {images.length}/{max} uploaded
+        </Text>
+      </View>
 
-            {/* Action Buttons */}
-            <View className="flex-row gap-3 mb-3">
-                <Pressable
-                    onPress={takePhoto}
-                    className="flex-1 border border-dashed border-gray-400 rounded-xl p-4 items-center"
-                >
-                    <Ionicons name="camera-outline" size={22} color="#6b7280" />
-                    <Text className="text-xs text-gray-500 mt-1">Camera</Text>
-                </Pressable>
+      {/* Action Buttons - Modernized */}
+      <View className="flex-row gap-3 mb-4">
+        <Pressable
+          onPress={takePhoto}
+          className="flex-1 bg-blue-50 border border-blue-100 rounded-2xl p-4 items-center justify-center active:bg-blue-100"
+        >
+          <View className="bg-white p-2 rounded-full mb-2 shadow-sm">
+            <Ionicons name="camera" size={20} color="#2563EB" />
+          </View>
+          <Text className="text-sm font-semibold text-blue-700">Camera</Text>
+        </Pressable>
 
-                <Pressable
-                    onPress={pickFromGallery}
-                    className="flex-1 border border-dashed border-gray-400 rounded-xl p-4 items-center"
-                >
-                    <Ionicons name="image-outline" size={22} color="#6b7280" />
-                    <Text className="text-xs text-gray-500 mt-1">Gallery</Text>
-                </Pressable>
+        <Pressable
+          onPress={pickFromGallery}
+          className="flex-1 bg-gray-50 border border-gray-100 rounded-2xl p-4 items-center justify-center active:bg-gray-100"
+        >
+          <View className="bg-white p-2 rounded-full mb-2 shadow-sm">
+            <Ionicons name="images" size={20} color="#4B5563" />
+          </View>
+          <Text className="text-sm font-semibold text-gray-700">Gallery</Text>
+        </Pressable>
+      </View>
+
+      {/* Image Preview Grid */}
+      {images.length > 0 && (
+        <View className="flex-row flex-wrap gap-3">
+          {images.map((img, index) => (
+            <View key={index} className="relative shadow-sm">
+              <Image
+                source={{ uri: img.uri }}
+                className="w-24 h-24 rounded-2xl border border-gray-100"
+              />
+              <Pressable
+                onPress={() => removeImage(index)}
+                className="absolute -top-2 -right-2 bg-white rounded-full p-1 shadow-md border border-gray-100"
+              >
+                <Ionicons name="close" size={16} color="#EF4444" />
+              </Pressable>
             </View>
-
-            {/* Image Preview Grid */}
-            <View className="flex-row flex-wrap gap-3">
-                {images.map((img, index) => (
-                    <View key={index} className="relative">
-                        <Image
-                            source={{ uri: img.uri }}
-                            className="w-24 h-24 rounded-xl"
-                        />
-                        <Pressable
-                            onPress={() => removeImage(index)}
-                            className="absolute -top-2 -right-2 bg-white rounded-full"
-                        >
-                            <Ionicons name="close-circle" size={22} color="red" />
-                        </Pressable>
-                    </View>
-                ))}
-            </View>
-
-            {/* Counter */}
-            <Text className="text-xs text-gray-500 mt-2">
-                {images.length}/{max} photos • Add clear images of the issue
-            </Text>
+          ))}
         </View>
+      )}
+
+      {/* Helper Text */}
+      <Text className="text-xs text-gray-400 mt-2 ml-1">
+        • Clear images help us resolve the issue faster
+      </Text>
+    </View>
     );
 };
 
