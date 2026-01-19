@@ -12,7 +12,7 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
 import UseCurrentLocation from "./UseCurrentLocation";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation ,useRoute} from "@react-navigation/native";
 
 const AddressForm = () => {
     const [address, setAddress] = useState("");
@@ -20,9 +20,10 @@ const AddressForm = () => {
     const [focusedField, setFocusedField] = useState<string | null>(null);
     const landmarkRef = useRef<TextInput>(null);
     const navigation = useNavigation<any>();
-
+    const route = useRoute<any>();
     const handleSubmit = () => {
         navigation.navigate("ReviewPage",{
+             ...route.params, 
             address,landmark
         });
     };
