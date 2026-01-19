@@ -6,3 +6,4 @@ export {default as IssueDetailScreen} from "../screens/IssueDetail";
 export {default as ReportIssueScreen} from "../screens/ReportIssue";
 export {default as DescribeFormIssue} from "../screenComponents/ReportScreenComponents/DescribeForm";
 export {default as AddressFormIssue} from "../screenComponents/ReportScreenComponents/AddressForm";
+export {default as ReviewPage} from "../screenComponents/ReportScreenComponents/ReviewPage";

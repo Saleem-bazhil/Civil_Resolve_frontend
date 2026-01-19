@@ -34,7 +34,7 @@ const submitDemo = () => {
 
   return (
     <View className="flex-1 bg-gray-50">
-      <StatusBar barStyle="light-content"  />
+      <StatusBar barStyle="light-content" />
 
       {/* Header with Texture Icon */}
       <View className="relative z-10">

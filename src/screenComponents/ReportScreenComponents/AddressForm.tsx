@@ -12,21 +12,24 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
 import UseCurrentLocation from "./UseCurrentLocation";
+import { useNavigation } from "@react-navigation/native";
 
 const AddressForm = () => {
     const [address, setAddress] = useState("");
     const [landmark, setLandmark] = useState("");
     const [focusedField, setFocusedField] = useState<string | null>(null);
-
     const landmarkRef = useRef<TextInput>(null);
+    const navigation = useNavigation<any>();
 
     const handleSubmit = () => {
-        console.log({ address, landmark });
+        navigation.navigate("ReviewPage",{
+            address,landmark
+        });
     };
 
     return (
         <View className="flex-1 bg-gray-50">
-            <StatusBar barStyle="light-content" backgroundColor="#1E3A8A" />
+            <StatusBar barStyle="light-content" />
 
             {/* Header */}
             <View className="relative z-10">
