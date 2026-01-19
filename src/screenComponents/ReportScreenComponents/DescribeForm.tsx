@@ -33,7 +33,7 @@ const submitDemo = () => {
 
 
   return (
-    <View className="flex-1 bg-gray-50">
+    <View className="flex-1 bg-gray0-5">
       <StatusBar barStyle="light-content" />
 
       {/* Header with Texture Icon */}
