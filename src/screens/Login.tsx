@@ -86,7 +86,7 @@ const Login = () => {
 
     return (
         <View className="flex-1 bg-gray-50">
-            <StatusBar barStyle="light-content" />
+            <StatusBar barStyle="light-content"/>
 
             {/* HEADER */}
             <View>

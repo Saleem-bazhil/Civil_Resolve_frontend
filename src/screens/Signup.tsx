@@ -7,21 +7,64 @@ import {
     StatusBar,
     KeyboardAvoidingView,
     Platform,
+    Alert,
 } from "react-native";
 import React, { useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import api from "../api/Axios";
 
 const Signup = () => {
     const navigation = useNavigation<any>();
+
     const [focusedField, setFocusedField] = useState<string | null>(null);
+
+    /* form states */
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [loading, setLoading] = useState(false);
+
+    /* signup logic */
+    const handleSignup = async () => {
+        if (!firstName || !lastName || !email || !password || !confirmPassword) {
+            Alert.alert("error", "all fields are required");
+            return;
+        }
+
+        if (password !== confirmPassword) {
+            Alert.alert("error", "passwords do not match");
+            return;
+        }
+
+        try {
+            setLoading(true);
+
+            await api.post("/users/signup", {
+                firstname: firstName,
+                lastname: lastName,
+                email,
+                password,
+            });
+
+            Alert.alert("success", "account created successfully");
+            navigation.navigate("login");
+        } catch (err: any) {
+            console.log("signup error:", err?.response?.data || err);
+            Alert.alert("signup failed", "email may already exist");
+        } finally {
+            setLoading(false);
+        }
+    };
 
     return (
         <View className="flex-1 bg-gray-50">
             <StatusBar barStyle="light-content" />
 
-            {/* Header */}
+            {/* header */}
             <View className="relative z-10">
                 <LinearGradient
                     colors={["#1E3A8A", "#2563EB"]}
@@ -43,7 +86,7 @@ const Signup = () => {
                 </LinearGradient>
             </View>
 
-            {/* Form */}
+            {/* form */}
             <KeyboardAvoidingView
                 behavior={Platform.OS === "ios" ? "padding" : undefined}
                 className="flex-1"
@@ -63,7 +106,7 @@ const Signup = () => {
                             shadowRadius: 10,
                         }}
                     >
-                        {/* First Name */}
+                        {/* first name */}
                         <View className="mb-6">
                             <Text className="text-gray-500 font-bold mb-2 ml-1 text-xs uppercase tracking-widest">
                                 First Name
@@ -78,19 +121,19 @@ const Signup = () => {
                                     name="person-outline"
                                     size={22}
                                     color={focusedField === "fname" ? "#2563EB" : "#9CA3AF"}
-                                    className="mr-3"
                                 />
                                 <TextInput
+                                    value={firstName}
+                                    onChangeText={setFirstName}
                                     placeholder="Enter the first name"
                                     onFocus={() => setFocusedField("fname")}
                                     onBlur={() => setFocusedField(null)}
-                                    className="flex-1 text-gray-800 text-base font-medium h-full"
-                                    selectionColor="#2563EB"
+                                    className="flex-1 text-gray-800 text-base font-medium h-full ml-3"
                                 />
                             </View>
                         </View>
 
-                        {/* Last Name */}
+                        {/* last name */}
                         <View className="mb-6">
                             <Text className="text-gray-500 font-bold mb-2 ml-1 text-xs uppercase tracking-widest">
                                 Last Name
@@ -105,19 +148,19 @@ const Signup = () => {
                                     name="person-outline"
                                     size={22}
                                     color={focusedField === "lname" ? "#2563EB" : "#9CA3AF"}
-                                    className="mr-3"
                                 />
                                 <TextInput
+                                    value={lastName}
+                                    onChangeText={setLastName}
                                     placeholder="Enter the last name"
                                     onFocus={() => setFocusedField("lname")}
                                     onBlur={() => setFocusedField(null)}
-                                    className="flex-1 text-gray-800 text-base font-medium h-full"
-                                    selectionColor="#2563EB"
+                                    className="flex-1 text-gray-800 text-base font-medium h-full ml-3"
                                 />
                             </View>
                         </View>
 
-                        {/* Email */}
+                        {/* email */}
                         <View className="mb-6">
                             <Text className="text-gray-500 font-bold mb-2 ml-1 text-xs uppercase tracking-widest">
                                 Email
@@ -132,19 +175,21 @@ const Signup = () => {
                                     name="mail-outline"
                                     size={22}
                                     color={focusedField === "email" ? "#2563EB" : "#9CA3AF"}
-                                    className="mr-3"
                                 />
                                 <TextInput
+                                    value={email}
+                                    onChangeText={setEmail}
                                     placeholder="Enter the email"
                                     onFocus={() => setFocusedField("email")}
                                     onBlur={() => setFocusedField(null)}
-                                    className="flex-1 text-gray-800 text-base font-medium h-full"
-                                    selectionColor="#2563EB"
+                                    autoCapitalize="none"
+                                    keyboardType="email-address"
+                                    className="flex-1 text-gray-800 text-base font-medium h-full ml-3"
                                 />
                             </View>
                         </View>
 
-                        {/* Password */}
+                        {/* password */}
                         <View className="mb-6">
                             <Text className="text-gray-500 font-bold mb-2 ml-1 text-xs uppercase tracking-widest">
                                 Password
@@ -159,20 +204,20 @@ const Signup = () => {
                                     name="lock-closed-outline"
                                     size={22}
                                     color={focusedField === "password" ? "#2563EB" : "#9CA3AF"}
-                                    className="mr-3"
                                 />
                                 <TextInput
+                                    value={password}
+                                    onChangeText={setPassword}
                                     placeholder="Enter the password"
                                     secureTextEntry
                                     onFocus={() => setFocusedField("password")}
                                     onBlur={() => setFocusedField(null)}
-                                    className="flex-1 text-gray-800 text-base font-medium h-full"
-                                    selectionColor="#2563EB"
+                                    className="flex-1 text-gray-800 text-base font-medium h-full ml-3"
                                 />
                             </View>
                         </View>
 
-                        {/* Confirm Password */}
+                        {/* confirm password */}
                         <View>
                             <Text className="text-gray-500 font-bold mb-2 ml-1 text-xs uppercase tracking-widest">
                                 Confirm Password
@@ -187,20 +232,24 @@ const Signup = () => {
                                     name="lock-closed-outline"
                                     size={22}
                                     color={focusedField === "confirm" ? "#2563EB" : "#9CA3AF"}
-                                    className="mr-3"
                                 />
                                 <TextInput
+                                    value={confirmPassword}
+                                    onChangeText={setConfirmPassword}
                                     placeholder="Enter the same password"
                                     secureTextEntry
                                     onFocus={() => setFocusedField("confirm")}
                                     onBlur={() => setFocusedField(null)}
-                                    className="flex-1 text-gray-800 text-base font-medium h-full"
-                                    selectionColor="#2563EB"
+                                    className="flex-1 text-gray-800 text-base font-medium h-full ml-3"
                                 />
                             </View>
                         </View>
-                        <View className="my-5 flex-row justify-center mr-2">
-                            <Text className="font-medium text-gray-500">Already have an account? </Text>
+
+                        {/* login link */}
+                        <View className="my-5 flex-row justify-center">
+                            <Text className="font-medium text-gray-500">
+                                Already have an account?{" "}
+                            </Text>
                             <Pressable onPress={() => navigation.navigate("login")}>
                                 <Text className="font-bold text-blue-600">Log In</Text>
                             </Pressable>
@@ -208,19 +257,11 @@ const Signup = () => {
                     </View>
                 </ScrollView>
 
-                {/* Footer  */}
-                <View
-                    className="bg-white px-6 pt-5 pb-8 border-t border-gray-100"
-                    style={{
-                        elevation: 20,
-                        shadowColor: "#000",
-                        shadowOffset: { width: 0, height: -2 },
-                        shadowOpacity: 0.05,
-                        shadowRadius: 5,
-                    }}
-                >
+                {/* signup button */}
+                <View className="bg-white px-6 pt-5 pb-8 border-t border-gray-100">
                     <Pressable
-                        onPress={() => navigation.navigate("login")}
+                        onPress={handleSignup}
+                        disabled={loading}
                         className="rounded-2xl overflow-hidden"
                     >
                         <LinearGradient
@@ -230,7 +271,7 @@ const Signup = () => {
                             className="h-14 items-center justify-center flex-row"
                         >
                             <Text className="text-white font-bold text-lg">
-                                Sign Up
+                                {loading ? "Signing up..." : "Sign Up"}
                             </Text>
                         </LinearGradient>
                     </Pressable>
