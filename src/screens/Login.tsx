@@ -7,28 +7,93 @@ import {
     StatusBar,
     KeyboardAvoidingView,
     Platform,
+    Alert,
 } from "react-native";
 import React, { useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { jwtDecode } from "jwt-decode";
+import api from "../api/Axios";
+
+type JwtPayload = {
+    id: number;
+    email: string;
+    role: "ADMIN" | "OFFICER" | "CITIZEN";
+};
 
 const Login = () => {
     const navigation = useNavigation<any>();
+
     const [focusedField, setFocusedField] = useState<string | null>(null);
     const [showPassword, setShowPassword] = useState(false);
 
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [loading, setLoading] = useState(false);
+
+    //  login 
+    const handleLogin = async () => {
+        if (!email || !password) {
+            Alert.alert("Error", "Please enter email and password");
+            return;
+        }
+
+        try {
+            setLoading(true);
+
+            const response = await api.post("/users/login", {
+                email,
+                password,
+            });
+
+            const { accessToken } = response.data;
+
+            await AsyncStorage.setItem("token", accessToken);
+
+            const decoded = jwtDecode<JwtPayload>(accessToken);
+            const role = decoded.role;
+
+            console.log("LOGIN SUCCESS → ROLE:", role);
+
+            if (role === "ADMIN") {
+                navigation.reset({
+                    index: 0,
+                    routes: [{ name: "AdminTabs" }],
+                });
+            } else if (role === "OFFICER") {
+                navigation.reset({
+                    index: 0,
+                    routes: [{ name: "OfficerTabs" }],
+                });
+                // citizen 
+            } else {
+                navigation.reset({
+                    index: 0,
+                    routes: [{ name: "MainTabs" }], 
+                });
+            }
+        } catch (error: any) {
+            console.log("LOGIN ERROR:", error.response?.data || error.message);
+            Alert.alert(
+                "email or password invalid please try again"
+            );
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return (
         <View className="flex-1 bg-gray-50">
-            <StatusBar barStyle="light-content"  />
+            <StatusBar barStyle="light-content" />
 
-            {/* header */}
+            {/* HEADER */}
             <View>
                 <LinearGradient
                     colors={["#1E3A8A", "#2563EB"]}
                     className="px-6 pt-28 pb-44 rounded-b-[32px]"
                 >
-                    {/* background icon */}
                     <View className="absolute right-0 top-6 opacity-20">
                         <Ionicons name="log-in-outline" size={160} color="white" />
                     </View>
@@ -42,7 +107,7 @@ const Login = () => {
                 </LinearGradient>
             </View>
 
-            {/* form */}
+            {/* FORM */}
             <KeyboardAvoidingView
                 behavior={Platform.OS === "ios" ? "padding" : undefined}
                 className="flex-1"
@@ -52,7 +117,6 @@ const Login = () => {
                     contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 20 }}
                     showsVerticalScrollIndicator={false}
                 >
-                    {/* card */}
                     <View
                         className="bg-white rounded-3xl p-8 mb-6"
                         style={{
@@ -63,15 +127,15 @@ const Login = () => {
                             shadowRadius: 10,
                         }}
                     >
-                        {/* Email */}
+                        {/* EMAIL */}
                         <View className="mb-6">
                             <Text className="text-gray-500 text-xs font-bold uppercase mb-2 ml-1 tracking-widest">
                                 Email
                             </Text>
                             <View
                                 className={`flex-row items-center rounded-2xl px-4 h-14 border ${focusedField === "email"
-                                    ? "border-blue-600 bg-blue-50"
-                                    : "border-gray-200 bg-gray-50"
+                                        ? "border-blue-600 bg-blue-50"
+                                        : "border-gray-200 bg-gray-50"
                                     }`}
                             >
                                 <Ionicons
@@ -82,26 +146,27 @@ const Login = () => {
                                 />
                                 <TextInput
                                     placeholder="Enter your email"
+                                    value={email}
+                                    onChangeText={setEmail}
                                     placeholderTextColor="#9CA3AF"
                                     onFocus={() => setFocusedField("email")}
                                     onBlur={() => setFocusedField(null)}
                                     className="flex-1 h-full text-gray-800 text-base font-medium"
-                                    selectionColor="#2563EB"
                                     autoCapitalize="none"
                                     keyboardType="email-address"
                                 />
                             </View>
                         </View>
 
-                        {/* Password */}
+                        {/* PASSWORD */}
                         <View className="mb-8">
                             <Text className="text-gray-500 text-xs font-bold uppercase mb-2 ml-1 tracking-widest">
                                 Password
                             </Text>
                             <View
                                 className={`flex-row items-center rounded-2xl px-4 h-14 border ${focusedField === "password"
-                                    ? "border-blue-600 bg-blue-50"
-                                    : "border-gray-200 bg-gray-50"
+                                        ? "border-blue-600 bg-blue-50"
+                                        : "border-gray-200 bg-gray-50"
                                     }`}
                             >
                                 <Ionicons
@@ -112,12 +177,13 @@ const Login = () => {
                                 />
                                 <TextInput
                                     secureTextEntry={!showPassword}
+                                    value={password}
+                                    onChangeText={setPassword}
                                     placeholder="Enter your password"
                                     placeholderTextColor="#9CA3AF"
                                     onFocus={() => setFocusedField("password")}
                                     onBlur={() => setFocusedField(null)}
                                     className="flex-1 h-full text-gray-800 text-base font-medium"
-                                    selectionColor="#2563EB"
                                 />
                                 <Pressable onPress={() => setShowPassword(!showPassword)}>
                                     <Ionicons
@@ -129,7 +195,7 @@ const Login = () => {
                             </View>
                         </View>
 
-                        {/* Sign Up */}
+                        {/* SIGN UP */}
                         <View className="flex-row justify-center items-center">
                             <Text className="text-gray-500 font-medium">
                                 Don’t have an account?
@@ -143,10 +209,11 @@ const Login = () => {
                     </View>
                 </ScrollView>
 
-                {/* footer button */}
+                {/* LOGIN BUTTON */}
                 <View className="bg-white px-6 py-6 border-t border-gray-100">
                     <Pressable
-                        onPress={() => navigation.navigate("MainTabs")}
+                        onPress={handleLogin}
+                        disabled={loading}
                         className="rounded-2xl overflow-hidden"
                     >
                         <LinearGradient
@@ -156,7 +223,7 @@ const Login = () => {
                             className="h-14 items-center justify-center flex-row"
                         >
                             <Text className="text-white font-bold text-lg tracking-wide">
-                                Login
+                                {loading ? "Logging in..." : "Login"}
                             </Text>
                         </LinearGradient>
                     </Pressable>
