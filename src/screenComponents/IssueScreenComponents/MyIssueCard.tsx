@@ -4,49 +4,54 @@ import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import api from "../../api/Axios";
 
-type IssueStatus = "IN_PROGRESS" | "PENDING" | "RESOLVED" | "OPEN";
+type IssueStatus = "OPEN" | "IN_PROGRESS" | "RESOLVED" | "CLOSED";
 
 const STATUS_CONFIG: Record<
   IssueStatus,
   { border: string; badge: string; text: string }
 > = {
+  OPEN: {
+    border: "bg-red-500",
+    badge: "bg-red-500",
+    text: "OPEN",
+  },
   IN_PROGRESS: {
     border: "bg-blue-500",
     badge: "bg-blue-500",
     text: "IN PROGRESS",
-  },
-  PENDING: {
-    border: "bg-orange-400",
-    badge: "bg-orange-400",
-    text: "PENDING",
   },
   RESOLVED: {
     border: "bg-green-500",
     badge: "bg-green-500",
     text: "RESOLVED",
   },
-  OPEN: {
-    border: "bg-red-500",
-    badge: "bg-red-500",
-    text: "OPEN",
+  CLOSED: {
+    border: "bg-gray-500",
+    badge: "bg-gray-500",
+    text: "CLOSED",
   },
 };
 
-interface MyIssueCardProps {
-  status?: IssueStatus;
-}
+/* status logic */
+const getStatusConfig = (status: unknown) => {
+  if (typeof status === "string" && status in STATUS_CONFIG) {
+    return STATUS_CONFIG[status as IssueStatus];
+  }
+  return STATUS_CONFIG.OPEN;
+};
 
-const MyIssueCard: React.FC<MyIssueCardProps> = ({
-  status = "IN_PROGRESS",
-}) => {
-  const navigation = useNavigation();
-  const [issues, setIssues] = useState([]);
+const MyIssueCard: React.FC = () => {
+  const navigation = useNavigation<any>();
+  const [issues, setIssues] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    api.get('/issues')
+    api
+      .get("/issues")
       .then((response) => setIssues(response.data))
-      .catch((error) => console.error('Error fetching issues:', error))
+      .catch((error) =>
+        console.error("Error fetching issues:", error)
+      )
       .finally(() => setLoading(false));
   }, []);
 
@@ -56,31 +61,31 @@ const MyIssueCard: React.FC<MyIssueCardProps> = ({
 
   return (
     <View>
-      {issues.map((issue: any, index: number) => {
-        const issueStatus = (issue.status as IssueStatus) || status;
-        const config = STATUS_CONFIG[issueStatus] || STATUS_CONFIG["OPEN"];
+      {issues.map((issue, index) => {
+        const config = getStatusConfig(issue.status);
+
         return (
           <Pressable
-            key={issue.id || index}
-            onPress={() => {
-              navigation.getParent()
-                ?.navigate("IssueDetail", {
-                  id: "1"
-                });
-            }}
-            className="flex-row bg-white rounded-2xl overflow-hidden mb-5 "
+            key={issue.id ?? index}
+            onPress={() =>
+              navigation.getParent()?.navigate("IssueDetail", {
+                id: issue.id, 
+              })
+            }
+            className="flex-row bg-white rounded-2xl overflow-hidden mb-5"
             android_ripple={{ color: "#E5E7EB" }}
-            style={({ pressed }) => [
-              pressed && { opacity: 0.97, transform: [{ scale: 0.995 }] },
-            ]}
           >
             {/* Status Accent */}
-            <View className={`w-1.5 h-100 ${config.border}`} />
+            <View className={`w-1.5 ${config.border}`} />
 
             <View className="flex-1 px-4 py-5">
               {/* Issue ID */}
               <View className="flex-row items-center mb-2">
-                <Ionicons name="image-outline" size={14} color="#6B7280" />
+                <Ionicons
+                  name="image-outline"
+                  size={14}
+                  color="#6B7280"
+                />
                 <Text className="ml-2 text-gray-500 text-xs font-medium">
                   {`A#0536${issue.id}`}
                 </Text>
@@ -94,16 +99,24 @@ const MyIssueCard: React.FC<MyIssueCardProps> = ({
                 {issue.title}
               </Text>
 
-              {/* address */}
+              {/* Address */}
               <View className="flex-row items-center mb-2">
-                <Ionicons name="location-outline" size={14} color="#6B7280" />
+                <Ionicons
+                  name="location-outline"
+                  size={14}
+                  color="#6B7280"
+                />
                 <Text className="ml-2 text-gray-600 text-sm">
                   {issue.address}
                 </Text>
               </View>
 
               <View className="flex-row items-center">
-                <MaterialIcons name="access-time" size={14} color="#6B7280" />
+                <MaterialIcons
+                  name="access-time"
+                  size={14}
+                  color="#6B7280"
+                />
                 <Text className="ml-2 text-gray-600 text-sm">
                   3 days left
                 </Text>
@@ -112,8 +125,10 @@ const MyIssueCard: React.FC<MyIssueCardProps> = ({
 
             {/* Right Side */}
             <View className="justify-between items-end px-4 py-5">
-              <View className={`px-3 py-1 rounded-full ${config.badge}`}>
-                <Text className="text-white text-[11px] font-semibold tracking-wide">
+              <View
+                className={`px-3 py-1 rounded-full ${config.badge}`}
+              >
+                <Text className="text-white text-[11px] font-semibold">
                   {config.text}
                 </Text>
               </View>
