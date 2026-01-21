@@ -11,10 +11,11 @@ const STATUS_CONFIG: Record<
   { border: string; badge: string; text: string }
 > = {
   OPEN: {
-    border: "bg-red-500",
-    badge: "bg-red-500",
+    border: "bg-orange-400",
+    badge: "bg-orange-400",
     text: "OPEN",
   },
+
   IN_PROGRESS: {
     border: "bg-blue-500",
     badge: "bg-blue-500",
@@ -76,7 +77,7 @@ const MyIssueCard: React.FC = () => {
             android_ripple={{ color: "#E5E7EB" }}
           >
             {/* Status Accent */}
-            <View className={`w-1.5 ${config.border}`} />
+            <View className={`w-1.5 bg-blue-600`} />
 
             <View className="flex-1 px-4 py-5">
               {/* Issue ID */}

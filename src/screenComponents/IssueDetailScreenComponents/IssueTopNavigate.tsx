@@ -3,8 +3,13 @@ import { View, Text, Pressable } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { Issue } from "../../screens/IssueDetail";
 
-const IssueTopNavigate = () => {
+interface IssueTopNavigateProps {
+    issue?: Issue;
+}
+
+const IssueTopNavigate = ({ issue }: IssueTopNavigateProps) => {
     const navigation = useNavigation();
     const insets = useSafeAreaInsets();
 
@@ -24,7 +29,7 @@ const IssueTopNavigate = () => {
                 </Pressable>
 
                 <Text className="text-[15px] font-semibold text-gray-900 tracking-wide">
-                    #CIV-2024-0847
+                    #CIV-{issue?.id || "2024-0847"}
                 </Text>
             </View>
 
@@ -33,7 +38,7 @@ const IssueTopNavigate = () => {
                 <View className="flex-row items-center bg-blue-50 px-3 py-1.5 rounded-full self-start border border-blue-200">
                     <View className="w-2 h-2 rounded-full bg-blue-500 mr-2" />
                     <Text className="text-xs font-semibold text-blue-700 tracking-wide">
-                        IN PROGRESS
+                        {issue?.status || "IN PROGRESS"}
                     </Text>
                 </View>
             </View>

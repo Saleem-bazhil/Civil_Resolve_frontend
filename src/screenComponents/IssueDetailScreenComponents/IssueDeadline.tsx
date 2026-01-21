@@ -1,7 +1,15 @@
 import React from "react";
 import { View, Text } from "react-native";
 
-const IssueDeadline = () => {
+interface IssueDeadlineProps {
+  slaDeadline?: string | null;
+}
+
+const IssueDeadline: React.FC<IssueDeadlineProps> = ({ slaDeadline }) => {
+  const deadlineDate = slaDeadline ? new Date(slaDeadline) : null;
+  const now = new Date();
+  const daysLeft = deadlineDate ? Math.ceil((deadlineDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)) : 0;
+
   return (
     <View className="bg-white rounded-2xl border border-gray-200 my-5 flex-row overflow-hidden">
       
@@ -17,7 +25,7 @@ const IssueDeadline = () => {
             Resolution Deadline
           </Text>
           <Text className="mt-1.5 text-lg font-semibold text-gray-900">
-            Jan 17, 2024
+            {deadlineDate ? deadlineDate.toLocaleDateString() : "N/A"}
           </Text>
         </View>
 
@@ -30,7 +38,7 @@ const IssueDeadline = () => {
             Time Remaining
           </Text>
           <Text className="mt-1.5 text-lg font-semibold text-blue-600">
-            3 days left
+            {daysLeft > 0 ? `${daysLeft} days left` : "Overdue"}
           </Text>
         </View>
 

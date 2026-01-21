@@ -1,8 +1,13 @@
 import { View, Text, Pressable } from "react-native";
 import React from "react";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { Issue } from "../../screens/IssueDetail";
 
-const IssueHeader = () => {
+interface IssueHeaderProps {
+    issue: Issue;
+}
+
+const IssueHeader: React.FC<IssueHeaderProps> = ({ issue }) => {
     return (
         <View className="">
             <View className="bg-white rounded-2xl border border-gray-100 shadow-md shadow-gray-200/40 overflow-hidden">
@@ -11,17 +16,17 @@ const IssueHeader = () => {
                     <View className="flex-row items-center mb-3">
                         <View className="bg-blue-50 px-3 py-1 rounded-full">
                             <Text className="text-[10px] font-semibold text-blue-700 uppercase tracking-wide">
-                                Road & Footpath
+                                {issue.category || "Road & Footpath"}
                             </Text>
                         </View>
                     </View>
 
                     <Text className="text-[20px] font-bold text-gray-900 leading-snug mb-2">
-                        Large pothole on Main Street causing traffic issues
+                        {issue.title}
                     </Text>
 
                     <Text className="text-[11px] text-gray-400 font-medium">
-                        Reported on Jan 8, 2024 · 10:30 AM
+                        Reported on {new Date(issue.createdAt).toLocaleDateString()} · {new Date(issue.createdAt).toLocaleTimeString()}
                     </Text>
                 </View>
 
@@ -45,7 +50,7 @@ const IssueHeader = () => {
                                 className="text-sm font-semibold text-gray-700"
                                 numberOfLines={1}
                             >
-                                Main St, Sector 15
+                                {issue.address}
                             </Text>
                         </View>
                     </View>

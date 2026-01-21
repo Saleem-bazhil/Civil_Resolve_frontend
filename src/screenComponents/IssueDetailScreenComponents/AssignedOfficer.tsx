@@ -2,7 +2,22 @@ import React from "react";
 import { View, Text, Pressable } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
-const AssignedOfficer = () => {
+interface AssignedOfficerProps {
+  officerId?: number | null;
+}
+
+const AssignedOfficer: React.FC<AssignedOfficerProps> = ({ officerId }) => {
+    if (!officerId) {
+        return (
+            <View className="bg-white rounded-2xl border border-gray-200 px-6 py-5">
+                <Text className="text-[12px] font-semibold text-gray-400 uppercase tracking-wider mb-4">
+                    Assigned Officer
+                </Text>
+                <Text className="text-gray-500">No officer assigned yet</Text>
+            </View>
+        );
+    }
+
     return (
         <View className="bg-white rounded-2xl border border-gray-200 px-6 py-5">
             <Text className="text-[12px] font-semibold text-gray-400 uppercase tracking-wider mb-4">
@@ -20,11 +35,11 @@ const AssignedOfficer = () => {
                     {/* Officer Info */}
                     <View className="flex-shrink">
                         <Text className="text-[16px] mb-1 font-semibold text-gray-900">
-                            Rajesh Kumar
+                            Officer #{officerId}
                         </Text>
 
                         <Text className="text-sm text-gray-500 mt-0.5">
-                            Junior Engineer · Roads Department
+                            Junior Engineer · Department
                         </Text>
                     </View>
                 </View>

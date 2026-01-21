@@ -2,7 +2,11 @@ import { View, Text, Image, TouchableOpacity } from 'react-native';
 import React from 'react';
 import { Ionicons, Feather } from '@expo/vector-icons';
 
-const PhotoCard = () => {
+interface PhotoCardProps {
+    imageUrl?: string | null;
+}
+
+const PhotoCard: React.FC<PhotoCardProps> = ({ imageUrl }) => {
     return (
         <View className="my-5">
             <View className="bg-white rounded-2xl border border-gray-100 shadow-lg shadow-gray-200/50 overflow-hidden">
@@ -18,7 +22,7 @@ const PhotoCard = () => {
                 <View className="px-5 pb-5">
                     <View className="relative">
                         <Image
-                            source={{ uri: "https://images.unsplash.com/photo-1515162305285-0293e4767cc2?q=80&w=1000&auto=format&fit=crop" }}
+                            source={{ uri: imageUrl || "https://images.unsplash.com/photo-1515162305285-0293e4767cc2?q=80&w=1000&auto=format&fit=crop" }}
                             className="w-full h-56 rounded-2xl border border-gray-200"
                             resizeMode="cover"
                         />

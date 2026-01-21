@@ -1,8 +1,13 @@
 import React from "react";
 import { View, Text } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { IssueStatus } from "../../screens/IssueDetail";
 
-const StatusTimeline = () => {
+interface StatusTimelineProps {
+  status: IssueStatus;
+}
+
+const StatusTimeline: React.FC<StatusTimelineProps> = ({ status }) => {
     return (
         <View className="bg-white rounded-2xl border border-gray-100 shadow-sm px-6 py-6 my-5">
 
@@ -43,8 +48,8 @@ const StatusTimeline = () => {
             {/* Assigned to Officer */}
             <View className="flex-row">
                 <View className="items-center mr-4">
-                    <View className="w-8 h-8 rounded-full bg-orange-400 items-center justify-center">
-                        <Ionicons name="time-outline" size={14} color="#fff" />
+                    <View className={`w-8 h-8 rounded-full ${status === "OPEN" ? "bg-orange-400" : "bg-green-500"} items-center justify-center`}>
+                        <Ionicons name={status === "OPEN" ? "time-outline" : "checkmark-outline"} size={14} color="#fff" />
                     </View>
                     <View className="w-px flex-1 bg-gray-100 mt-2" />
                 </View>
