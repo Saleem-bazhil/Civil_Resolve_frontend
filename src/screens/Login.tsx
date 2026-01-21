@@ -75,7 +75,7 @@ const Login = () => {
                 });
             }
         } catch (error: any) {
-            console.log("LOGIN ERROR:", error.response?.data || error.message);
+            // console.log("LOGIN ERROR:", error.response?.data || error.message);
             Alert.alert(
                 "email or password invalid please try again"
             );

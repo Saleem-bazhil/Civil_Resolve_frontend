@@ -51,8 +51,6 @@ const Home = () => {
 
 {/* Cards */}
 <MyIssueCard />
-<MyIssueCard status="PENDING" />
-<MyIssueCard status="RESOLVED" />
 
 
 

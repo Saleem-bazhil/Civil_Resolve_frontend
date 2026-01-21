@@ -38,7 +38,7 @@ const ReportCard = () => {
                 </View>
 
                 <Pressable
-                    onPress={() => navigation.navigate("Profile")}
+                    onPress={() => navigation.navigate("Report a Problem")}
                     className="flex-row items-center gap-2 self-start bg-white/25 px-5 py-3 rounded-full active:opacity-80"
                 >
                     <AntDesign name="plus" size={18} color="white" />

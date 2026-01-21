@@ -12,11 +12,6 @@ const Issues = () => {
       <SearchBar />
 
       <MyIssueCard />
-      <MyIssueCard status="PENDING" />
-      <MyIssueCard status="RESOLVED" />
-       <MyIssueCard />
-      <MyIssueCard status="PENDING" />
-      <MyIssueCard status="RESOLVED" />
     </ScrollView>
 
   )
