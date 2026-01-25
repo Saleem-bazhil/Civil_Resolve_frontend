@@ -10,7 +10,7 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation, useRoute } from "@react-navigation/native";
-
+import api from "../../api/Axios";
 
 const SectionHeader = ({ icon, title }: { icon: keyof typeof Ionicons.glyphMap; title: string }) => (
   <View className="flex-row items-center mb-3">
@@ -95,7 +95,7 @@ const ActionFooter = ({ onPress }: { onPress: () => void }) => (
       }}
     >
       <LinearGradient
-        colors={["#1E3A8A", "#2563EB"]} 
+        colors={["#1E3A8A", "#2563EB"]}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
         className="h-14 items-center justify-center flex-row"
@@ -106,25 +106,43 @@ const ActionFooter = ({ onPress }: { onPress: () => void }) => (
     </Pressable>
   </View>
 );
-
+// before upper code are components of the review page
+// -----------------------------------------------------------------------------------------
+// this is the review page post request to the backend
 const ReviewPage = () => {
   const navigation = useNavigation<any>();
   const { params } = useRoute<any>();
 
-  const {
-    category = "General Issue",
-    categoryDesc = "Standard facility report",
-    title = "-",
-    description = "-",
-    images = [],
-    address = "-",
-    landmark = "",
-  } = params || {};
+  const category = params?.category || "General Issue";
+  const categoryDesc = params?.categoryDesc || "Standard facility report";
+  const title = params?.title || "-";
+  const description = params?.description || "-";
+  const images = params?.images || [];
+  const address = params?.address || "-";
+  const landmark = params?.landmark || "";
 
-  const handleSubmit = () => {
-    const payload = { category, title, description, images, address, landmark };
-    console.log(" Submitting Payload:", payload);
-    // navigation.navigate("Success");
+
+  const handleSubmit = async () => {
+    try {
+      const imageUrl = images.length > 0 ? (images[0].uri || images[0]) : "";
+
+      const payload = {
+        title,
+        description,
+        category,
+        address,
+        landmark,
+        area: address, // map address
+        imageUrl
+      };
+
+      await api.post("/issues", payload);
+      alert("Report submitted successfully!");
+      navigation.navigate("MainTabs");
+
+    } catch (error) {
+      alert("Failed to submit report. Please try again.");
+    }
   };
 
   return (
