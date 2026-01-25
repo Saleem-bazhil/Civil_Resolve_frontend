@@ -4,14 +4,19 @@ import SearchBar from '../screenComponents/IssueScreenComponents/SearchBar'
 import MyIssueCard from '../screenComponents/IssueScreenComponents/MyIssueCard'
 
 const Issues = () => {
+  const [searchQuery, setSearchQuery] = React.useState("");
+
   return (
     <ScrollView
       className="bg-background-bgcolor"
       contentContainerStyle={{ padding: 26, paddingBottom: 90, }}
     >
-      <SearchBar />
+      <SearchBar
+        value={searchQuery}
+        onChangeText={setSearchQuery}
+      />
 
-      <MyIssueCard />
+      <MyIssueCard searchQuery={searchQuery} />
     </ScrollView>
 
   )

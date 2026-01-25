@@ -41,7 +41,11 @@ const getStatusConfig = (status: unknown) => {
   return STATUS_CONFIG.OPEN;
 };
 
-const MyIssueCard: React.FC = () => {
+interface MyIssueCardProps {
+  searchQuery?: string;
+}
+
+const MyIssueCard: React.FC<MyIssueCardProps> = ({ searchQuery = "" }) => {
   const navigation = useNavigation<any>();
   const [issues, setIssues] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -56,13 +60,26 @@ const MyIssueCard: React.FC = () => {
       .finally(() => setLoading(false));
   }, []);
 
+  const filteredIssues = issues.filter((issue) => {
+    if (!searchQuery) return true;
+    const lowerQuery = searchQuery.toLowerCase();
+    const titleMatch = issue.title?.toLowerCase().includes(lowerQuery);
+    const addressMatch = issue.address?.toLowerCase().includes(lowerQuery);
+    const idMatch = issue.id?.toString().includes(lowerQuery);
+    return titleMatch || addressMatch || idMatch;
+  });
+
   if (loading) {
     return <Text>Loading...</Text>;
   }
 
+  if (filteredIssues.length === 0) {
+    return <Text className="text-gray-500 text-center mt-4">No issues matches your search</Text>;
+  }
+
   return (
     <View>
-      {issues.map((issue, index) => {
+      {filteredIssues.map((issue, index) => {
         const config = getStatusConfig(issue.status);
 
         return (
@@ -70,7 +87,7 @@ const MyIssueCard: React.FC = () => {
             key={issue.id ?? index}
             onPress={() =>
               navigation.getParent()?.navigate("IssueDetail", {
-                id: issue.id, 
+                id: issue.id,
               })
             }
             className="flex-row bg-white rounded-2xl overflow-hidden mb-5"
