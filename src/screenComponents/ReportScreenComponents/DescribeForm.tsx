@@ -12,7 +12,7 @@ import React, { useState } from "react";
 import ImagePickerField from "./ImagePickerField";
 import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 
 const DescribeForm = () => {
   const [title, setTitle] = useState("");
@@ -20,16 +20,18 @@ const DescribeForm = () => {
   const [images, setImages] = useState<any[]>([]);
   const [focusedField, setFocusedField] = useState<string | null>(null);
   const navigation = useNavigation<any>();
+  const route = useRoute<any>();
 
   const MAX_DESC_LENGTH = 500;
 
-const submitDemo = () => {
-  navigation.navigate("AddressForm", {
-    title,
-    description,
-    images,
-  });
-};
+  const submitDemo = () => {
+    navigation.navigate("AddressForm", {
+      title,
+      description,
+      images,
+      category: route.params?.category,
+    });
+  };
 
 
   return (
@@ -72,8 +74,8 @@ const submitDemo = () => {
           <View
             className="bg-white rounded-3xl p-6 mb-6"
             style={{
-              elevation: 5, 
-              shadowColor: "#000", 
+              elevation: 5,
+              shadowColor: "#000",
               shadowOffset: { width: 0, height: 4 },
               shadowOpacity: 0.1,
               shadowRadius: 10,
@@ -86,11 +88,10 @@ const submitDemo = () => {
               </Text>
 
               <View
-                className={`flex-row items-center bg-gray-50 border rounded-2xl px-4 h-14 ${
-                  focusedField === "title"
-                    ? "border-blue-600 bg-blue-50"
-                    : "border-gray-200"
-                }`}
+                className={`flex-row items-center bg-gray-50 border rounded-2xl px-4 h-14 ${focusedField === "title"
+                  ? "border-blue-600 bg-blue-50"
+                  : "border-gray-200"
+                  }`}
               >
                 <View className="mr-3">
                   <Ionicons
@@ -124,11 +125,10 @@ const submitDemo = () => {
               </View>
 
               <View
-                className={`bg-gray-50 border rounded-2xl px-4 py-3 ${
-                  focusedField === "desc"
-                    ? "border-blue-600 bg-blue-50"
-                    : "border-gray-200"
-                }`}
+                className={`bg-gray-50 border rounded-2xl px-4 py-3 ${focusedField === "desc"
+                  ? "border-blue-600 bg-blue-50"
+                  : "border-gray-200"
+                  }`}
               >
                 <TextInput
                   multiline
