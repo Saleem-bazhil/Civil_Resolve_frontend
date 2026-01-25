@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import api from "../../api/Axios";
 import { View, Text, Pressable } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
 
 const COLORS = {
     primary: "#1E3A8A",
@@ -10,6 +12,44 @@ const COLORS = {
 };
 
 const ProfileCard = () => {
+    const [profile, setProfile] = useState<any>(null);
+    const [loading, setLoading] = useState(true);
+
+    const navigation = useNavigation<any>();
+
+    useFocusEffect(
+        React.useCallback(() => {
+            const fetchProfile = async () => {
+                try {
+                    const response = await api.get("/users/profile");
+                    setProfile(response.data);
+                } catch (error) {
+                    console.error("Error fetching profile:", error);
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            fetchProfile();
+        }, [])
+    );
+
+    if (loading) {
+        return (
+            <View className="flex-1 justify-center items-center bg-gray-50 h-64 rounded-[28px]">
+                <Text className="text-gray-400">Loading profile...</Text>
+            </View>
+        );
+    }
+
+    if (!profile) {
+        return (
+            <View className="flex-1 justify-center items-center bg-gray-50 h-64 rounded-[28px]">
+                <Text className="text-gray-400">Failed to load profile</Text>
+            </View>
+        );
+    }
+
     return (
         <View className="flex-1 justify-center rounded-[28px] bg-gray-50">
             <View
@@ -47,9 +87,8 @@ const ProfileCard = () => {
                     {/* name */}
                     <View className="items-center mt-3 mb-6 space-y-2">
                         <Text className="text-2xl font-bold text-gray-900">
-                            John Citizen
+                            {profile.firstname} {profile.lastname || ""}
                         </Text>
-
                     </View>
                 </View>
 
@@ -66,7 +105,7 @@ const ProfileCard = () => {
                                 Email Address
                             </Text>
                             <Text className="text-sm font-semibold text-gray-800">
-                                john.citizen@email.com
+                                {profile.email}
                             </Text>
                         </View>
                     </View>
@@ -81,7 +120,7 @@ const ProfileCard = () => {
                                 Phone Number
                             </Text>
                             <Text className="text-sm font-semibold text-gray-800">
-                                +91 98765 43210
+                                {profile.mobile || "N/A"}
                             </Text>
                         </View>
                     </View>
@@ -96,7 +135,7 @@ const ProfileCard = () => {
                                 Location
                             </Text>
                             <Text className="text-sm font-semibold text-gray-800">
-                                Sector 15, City
+                                {profile.address || profile.area || "N/A"}
                             </Text>
                         </View>
                     </View>
@@ -105,7 +144,10 @@ const ProfileCard = () => {
 
                 {/* edit profile */}
                 <View className="px-6 mt-6 mb-6">
-                    <Pressable className="active:opacity-90">
+                    <Pressable
+                        onPress={() => navigation.navigate("EditProfile")}
+                        className="active:opacity-90"
+                    >
                         <View className="rounded-xl overflow-hidden shadow-lg shadow-blue-500/30">
                             <LinearGradient
                                 colors={[COLORS.gradientStart, COLORS.gradientEnd]}
