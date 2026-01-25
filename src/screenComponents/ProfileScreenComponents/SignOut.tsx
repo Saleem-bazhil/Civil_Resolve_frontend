@@ -23,7 +23,7 @@ const SignOut = () => {
     <Pressable
       onPress={handleSignOut}
       hitSlop={14}
-      className="mt-6 rounded-2xl border border-red-200 bg-red-50 py-4 active:bg-red-100"
+      className="mt-6 rounded-2xl border border-red-200 bg-red-50 py-3 active:bg-red-100"
     >
       {/* Centered content */}
       <View className="flex-row items-center justify-center mr-6">

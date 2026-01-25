@@ -3,9 +3,11 @@ import React from "react";
 import ReportCard from "../screenComponents/HomeScreenComponents/ReportCard"
 import IssueCard from "../screenComponents/HomeScreenComponents/IssueCard";
 import MyIssueCard from "../screenComponents/IssueScreenComponents/MyIssueCard";
-import {Ionicons} from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 const Home = () => {
+  const navigation = useNavigation<any>();
   return (
     <ScrollView
       className="bg-background-bgcolor"
@@ -27,30 +29,31 @@ const Home = () => {
 
       {/* Recent Issue  */}
 
-<View className="mt-10 mb-5 flex-row items-center justify-between">
-  {/* Section Title */}
-  <Text className="text-[18px] font-semibold text-gray-900 tracking-tight">
-    Recent Issues
-  </Text>
+      <View className="mt-10 mb-5 flex-row items-center justify-between">
+        {/* Section Title */}
+        <Text className="text-[18px] font-semibold text-gray-900 tracking-tight">
+          Recent Issues
+        </Text>
 
-  {/* Action */}
-  <Pressable
-    android_ripple={{ color: "#E5E7EB" }}
-    className="flex-row items-center px-2 py-1 rounded-md"
-  >
-    <Text className="text-blue-600 text-sm font-medium mr-1">
-      View All
-    </Text>
-    <Ionicons
-      name="chevron-forward"
-      size={14}
-      color="#2563EB"
-    />
-  </Pressable>
-</View>
+        {/* Action */}
+        <Pressable
+          onPress={() => navigation.navigate("MainTabs", { screen: "Issues" })}
+          android_ripple={{ color: "#E5E7EB" }}
+          className="flex-row items-center px-2 py-1 rounded-md"
+        >
+          <Text className="text-blue-600 text-sm font-medium mr-1">
+            View All
+          </Text>
+          <Ionicons
+            name="chevron-forward"
+            size={14}
+            color="#2563EB"
+          />
+        </Pressable>
+      </View>
 
-{/* Cards */}
-<MyIssueCard />
+      {/* Cards */}
+      <MyIssueCard />
 
 
 

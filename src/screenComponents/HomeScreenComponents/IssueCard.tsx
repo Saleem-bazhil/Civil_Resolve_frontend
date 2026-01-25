@@ -1,8 +1,32 @@
 import { View, Text } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
+import { useFocusEffect } from "@react-navigation/native";
+import api from "../../api/Axios";
 
 const IssueCard = () => {
+    const [stats, setStats] = useState({
+        total: 0,
+        open: 0,
+        inProgress: 0,
+        resolved: 0
+    });
+
+    useFocusEffect(
+        React.useCallback(() => {
+            fetchStats();
+        }, [])
+    );
+
+    const fetchStats = async () => {
+        try {
+            const response = await api.get("/issues/stats");
+            setStats(response.data);
+        } catch (error) {
+            console.error("Error fetching stats:", error);
+        }
+    };
+
     return (
         <View className="flex-row flex-wrap gap-4 mt-6">
             {/* Total Issues */}
@@ -20,11 +44,11 @@ const IssueCard = () => {
                     </View>
                 </View>
                 <Text className="text-3xl font-bold mt-4 text-gray-900">
-                    12
+                    {stats.total}
                 </Text>
             </View>
 
-            {/* Pending */}
+            {/* Pending (Open) */}
             <View className="w-[48%] bg-orange-400 rounded-2xl p-5">
                 <View className="flex-row justify-between items-center">
                     <Text className="text-white/90 text-sm font-semibold">
@@ -39,7 +63,7 @@ const IssueCard = () => {
                     </View>
                 </View>
                 <Text className="text-3xl font-bold text-white mt-4">
-                    3
+                    {stats.open}
                 </Text>
             </View>
 
@@ -58,7 +82,7 @@ const IssueCard = () => {
                     </View>
                 </View>
                 <Text className="text-3xl font-bold mt-4 text-gray-900">
-                    5
+                    {stats.inProgress}
                 </Text>
             </View>
 
@@ -77,7 +101,7 @@ const IssueCard = () => {
                     </View>
                 </View>
                 <Text className="text-3xl font-bold text-white mt-4">
-                    4
+                    {stats.resolved}
                 </Text>
             </View>
         </View>
