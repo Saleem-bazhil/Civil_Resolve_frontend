@@ -87,7 +87,7 @@ const ReportCardCategory = () => {
                         onPress={() => {
                             setSelected(key);
                             navigation.navigate("DescribeForm", {
-                                category: key,
+                                category: title,
                             });
                         }}
                         accessibilityRole="button"

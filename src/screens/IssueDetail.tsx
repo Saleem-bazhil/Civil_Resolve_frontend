@@ -10,6 +10,7 @@ import IssueTopNavigate from "../screenComponents/IssueDetailScreenComponents/Is
 import IssueDeadline from "../screenComponents/IssueDetailScreenComponents/IssueDeadline";
 import AssignedOfficer from "../screenComponents/IssueDetailScreenComponents/AssignedOfficer";
 import StatusTimeline from "../screenComponents/IssueDetailScreenComponents/StatusTimeline";
+import OfficerAction from "../screenComponents/officerComponents/OfficerAction";
 
 /* 🔹 Status aligned with backend */
 export type IssueStatus = "OPEN" | "IN_PROGRESS" | "RESOLVED" | "CLOSED";
@@ -36,6 +37,7 @@ export interface Issue {
   slaDeadline?: string | null;
   slaBreached: boolean;
   escalationLevel: number;
+  statusHistory?: any[];
 }
 
 const IssueDetail = () => {
@@ -68,7 +70,15 @@ const IssueDetail = () => {
         <IssueDescription description={issue.description} />
         <IssueDeadline slaDeadline={issue.slaDeadline} />
         <AssignedOfficer officerId={issue.officerId} />
-        <StatusTimeline status={issue.status} />
+        <StatusTimeline
+          status={issue.status}
+          createdAt={issue.createdAt}
+          history={issue.statusHistory || []}
+        />
+        <OfficerAction issue={issue} onUpdate={() => {
+          setLoading(true);
+          api.get(`/issues/${id}`).then(res => setIssueDetail(res.data)).finally(() => setLoading(false));
+        }} />
       </ScrollView>
     </View>
   );

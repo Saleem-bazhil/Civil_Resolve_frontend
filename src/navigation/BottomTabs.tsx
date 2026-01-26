@@ -11,13 +11,14 @@ import {
   ProfileScreen,
   ReportIssueScreen,
   OfficerHome,
+  OfficerIssues,
 } from "../imports/Imports";
 
 import { ScreenContent } from "@/components/ScreenContent";
 
 const Tab = createBottomTabNavigator();
 type Props = {
-  role:"ADMIN" | "OFFICER" | "CITIZEN";
+  role: "ADMIN" | "OFFICER" | "CITIZEN";
 }
 
 export default function BottomTabs({ role }: Props) {
@@ -74,7 +75,7 @@ export default function BottomTabs({ role }: Props) {
       {/* Issues */}
       <Tab.Screen
         name="Issues"
-        component={IssuesScreen}
+        component={isOfficer ? OfficerIssues : IssuesScreen}
         options={{
           tabBarLabel: "My Issues",
           tabBarIcon: ({ color, focused }) => (

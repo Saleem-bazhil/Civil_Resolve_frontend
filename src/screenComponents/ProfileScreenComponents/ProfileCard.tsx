@@ -125,20 +125,55 @@ const ProfileCard = () => {
                         </View>
                     </View>
 
-                    {/* location */}
-                    <View className="flex-row items-center p-3.5 bg-blue-50/50 rounded-2xl border border-blue-100/50">
-                        <View className="w-10 h-10 bg-white rounded-full items-center justify-center mr-4 shadow-sm">
-                            <Ionicons name="location" size={18} color={COLORS.primary} />
+                    {/* officer details or location */}
+                    {profile.role === "OFFICER" && profile.officer ? (
+                        <>
+                            {/* Department */}
+                            <View className="flex-row items-center p-3.5 bg-blue-50/50 rounded-2xl border border-blue-100/50 mb-4">
+                                <View className="w-10 h-10 bg-white rounded-full items-center justify-center mr-4 shadow-sm">
+                                    <Ionicons name="business" size={18} color={COLORS.primary} />
+                                </View>
+                                <View className="flex-1">
+                                    <Text className="text-[10px] text-gray-400 font-bold uppercase mb-0.5">
+                                        Department
+                                    </Text>
+                                    <Text className="text-sm font-semibold text-gray-800">
+                                        {profile.officer.department?.name || "N/A"}
+                                    </Text>
+                                </View>
+                            </View>
+
+                            {/* Area */}
+                            <View className="flex-row items-center p-3.5 bg-blue-50/50 rounded-2xl border border-blue-100/50">
+                                <View className="w-10 h-10 bg-white rounded-full items-center justify-center mr-4 shadow-sm">
+                                    <Ionicons name="map" size={18} color={COLORS.primary} />
+                                </View>
+                                <View className="flex-1">
+                                    <Text className="text-[10px] text-gray-400 font-bold uppercase mb-0.5">
+                                        Assigned Area
+                                    </Text>
+                                    <Text className="text-sm font-semibold text-gray-800">
+                                        {profile.officer.area || "N/A"}
+                                    </Text>
+                                </View>
+                            </View>
+                        </>
+                    ) : (
+                        /* location for citizen */
+                        <View className="flex-row items-center p-3.5 bg-blue-50/50 rounded-2xl border border-blue-100/50">
+                            <View className="w-10 h-10 bg-white rounded-full items-center justify-center mr-4 shadow-sm">
+                                <Ionicons name="location" size={18} color={COLORS.primary} />
+                            </View>
+                            <View className="flex-1">
+                                <Text className="text-[10px] text-gray-400 font-bold uppercase mb-0.5">
+                                    Location
+                                </Text>
+                                <Text className="text-sm font-semibold text-gray-800">
+                                    {profile.address || profile.area || "N/A"}
+                                </Text>
+                            </View>
                         </View>
-                        <View className="flex-1">
-                            <Text className="text-[10px] text-gray-400 font-bold uppercase mb-0.5">
-                                Location
-                            </Text>
-                            <Text className="text-sm font-semibold text-gray-800">
-                                {profile.address || profile.area || "N/A"}
-                            </Text>
-                        </View>
-                    </View>
+                    )}
 
                 </View>
 
