@@ -10,10 +10,8 @@ const SignOut = () => {
   const handleSignOut = async () => {
     try {
       await AsyncStorage.removeItem("token");
-      navigation.reset({
-        index: 0,
-        routes: [{ name: "login" }],
-      });
+      await AsyncStorage.removeItem("role");
+      // Removing role triggers RootNavigator to re-render and show login screens
     } catch (error) {
       console.error("Error signing out:", error);
     }

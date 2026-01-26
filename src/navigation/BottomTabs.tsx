@@ -10,14 +10,19 @@ import {
   AlertScreen,
   ProfileScreen,
   ReportIssueScreen,
+  OfficerHome,
 } from "../imports/Imports";
 
 import { ScreenContent } from "@/components/ScreenContent";
 
 const Tab = createBottomTabNavigator();
+type Props = {
+  role:"ADMIN" | "OFFICER" | "CITIZEN";
+}
 
-export default function BottomTabs() {
+export default function BottomTabs({ role }: Props) {
   const PRIMARY_COLOR = "hsl(221, 83%, 28%)";
+  const isOfficer = role === "OFFICER";
 
   return (
     <Tab.Navigator
@@ -53,8 +58,8 @@ export default function BottomTabs() {
     >
       {/* Home */}
       <Tab.Screen
-        name="Home"
-        component={HomeScreen}
+        name={isOfficer ? "Home" : "Home"}
+        component={isOfficer ? OfficerHome : HomeScreen}
         options={{
           tabBarIcon: ({ color, focused }) => (
             <Ionicons

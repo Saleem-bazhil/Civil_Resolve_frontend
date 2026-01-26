@@ -54,30 +54,16 @@ const Login = () => {
 
             const decoded = jwtDecode<JwtPayload>(accessToken);
             const role = decoded.role;
+            await AsyncStorage.setItem("role", role);
 
             console.log("LOGIN SUCCESS → ROLE:", role);
 
-            if (role === "ADMIN") {
-                navigation.reset({
-                    index: 0,
-                    routes: [{ name: "AdminTabs" }],
-                });
-            } else if (role === "OFFICER") {
-                navigation.reset({
-                    index: 0,
-                    routes: [{ name: "OfficerTabs" }],
-                });
-                // citizen 
-            } else {
-                navigation.reset({
-                    index: 0,
-                    routes: [{ name: "MainTabs" }], 
-                });
-            }
+
         } catch (error: any) {
-            // console.log("LOGIN ERROR:", error.response?.data || error.message);
+            console.error("Login error:", error.response?.data || error.message);
             Alert.alert(
-                "email or password invalid please try again"
+                "Error",
+                error.response?.data?.message || "Email or password invalid. Please try again"
             );
         } finally {
             setLoading(false);
@@ -86,7 +72,7 @@ const Login = () => {
 
     return (
         <View className="flex-1 bg-gray-50">
-            <StatusBar barStyle="light-content"/>
+            <StatusBar barStyle="light-content" />
 
             {/* HEADER */}
             <View>
@@ -134,8 +120,8 @@ const Login = () => {
                             </Text>
                             <View
                                 className={`flex-row items-center rounded-2xl px-4 h-14 border ${focusedField === "email"
-                                        ? "border-blue-600 bg-blue-50"
-                                        : "border-gray-200 bg-gray-50"
+                                    ? "border-blue-600 bg-blue-50"
+                                    : "border-gray-200 bg-gray-50"
                                     }`}
                             >
                                 <Ionicons
@@ -165,8 +151,8 @@ const Login = () => {
                             </Text>
                             <View
                                 className={`flex-row items-center rounded-2xl px-4 h-14 border ${focusedField === "password"
-                                        ? "border-blue-600 bg-blue-50"
-                                        : "border-gray-200 bg-gray-50"
+                                    ? "border-blue-600 bg-blue-50"
+                                    : "border-gray-200 bg-gray-50"
                                     }`}
                             >
                                 <Ionicons

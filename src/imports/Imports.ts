@@ -10,3 +10,4 @@ export { default as ReviewPage } from "../screenComponents/ReportScreenComponent
 export { default as SignupScreen } from "../screens/Signup";
 export { default as LoginScreen } from "../screens/Login";
 export { default as EditProfileScreen } from "../screens/EditProfile";
+export { default as OfficerHome } from "../screens/officer/OfficerHome";
