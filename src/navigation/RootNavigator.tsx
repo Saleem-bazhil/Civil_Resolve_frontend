@@ -29,7 +29,6 @@ const RootNavigator = () => {
         };
         fetchRole();
 
-        // Listen for role changes (especially when signing out)
         const interval = setInterval(fetchRole, 500);
         return () => clearInterval(interval);
     }, [])
@@ -38,8 +37,40 @@ const RootNavigator = () => {
         <Stack.Navigator>
             {!role ? (
                 <>
-                    <Stack.Screen name='login' component={LoginScreen} options={{ headerShown: true }} />
-                    <Stack.Screen name='signup' component={SignupScreen} options={{ headerShown: true }} />
+                    <Stack.Screen
+                        name='login'
+                        component={LoginScreen}
+                        options={{
+                            title: 'Login',
+                            headerShown: true,
+                            headerTitleAlign: 'center',
+                            headerTintColor: '#0f172a',
+                            headerStyle: { backgroundColor: '#ffffff' },
+                            headerTitleStyle: {
+                                fontWeight: '800',
+                                fontSize: 18,
+                                color: '#0f172a'
+                            },
+                            headerShadowVisible: true,
+                        }}
+                    />
+                    <Stack.Screen
+                        name='signup'
+                        component={SignupScreen}
+                        options={{
+                            title: 'Create Account',
+                            headerShown: true,
+                            headerTitleAlign: 'center',
+                            headerTintColor: '#0f172a',
+                            headerStyle: { backgroundColor: '#ffffff' },
+                            headerTitleStyle: {
+                                fontWeight: '800',
+                                fontSize: 18,
+                                color: '#0f172a'
+                            },
+                            headerShadowVisible: true,
+                        }}
+                    />
                 </>
             )
                 : (

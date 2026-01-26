@@ -22,7 +22,7 @@ const NotificationCard: React.FC<NotificationCardProps> = ({ notification }) => 
             >
 
                 <LinearGradient
-                    colors={notification.read ? ["#94A3B8", "#CBD5E1"] : ["#1E3A8A", "#3B5FBF"]}
+                    colors={notification.read ? ["#94A3B8", "#CBD5E1"] : ["#3730a3", "#4f46e5"]}
                     start={{ x: 0, y: 0 }}
                     end={{ x: 0, y: 1 }}
                     className="w-1.5"

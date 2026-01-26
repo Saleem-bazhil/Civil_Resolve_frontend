@@ -15,7 +15,6 @@ const STATUS_CONFIG: Record<
     badge: "bg-orange-400",
     text: "OPEN",
   },
-
   IN_PROGRESS: {
     border: "bg-blue-500",
     badge: "bg-blue-500",
@@ -43,9 +42,10 @@ const getStatusConfig = (status: unknown) => {
 
 interface MyIssueCardProps {
   searchQuery?: string;
+  limit?: number;
 }
 
-const MyIssueCard: React.FC<MyIssueCardProps> = ({ searchQuery = "" }) => {
+const MyIssueCard: React.FC<MyIssueCardProps> = ({ searchQuery = "", limit }) => {
   const navigation = useNavigation<any>();
   const [issues, setIssues] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -54,9 +54,7 @@ const MyIssueCard: React.FC<MyIssueCardProps> = ({ searchQuery = "" }) => {
     api
       .get("/issues")
       .then((response) => setIssues(response.data))
-      .catch((error) =>
-        console.error("Error fetching issues:", error)
-      )
+      .catch((error) => console.error("Error fetching issues:", error))
       .finally(() => setLoading(false));
   }, []);
 
@@ -69,8 +67,10 @@ const MyIssueCard: React.FC<MyIssueCardProps> = ({ searchQuery = "" }) => {
     return titleMatch || addressMatch || idMatch;
   });
 
+  const displayedIssues = limit ? filteredIssues.slice(0, limit) : filteredIssues;
+
   if (loading) {
-    return <Text>Loading...</Text>;
+    return <Text className="text-center mt-4">Loading...</Text>;
   }
 
   if (filteredIssues.length === 0) {
@@ -78,8 +78,8 @@ const MyIssueCard: React.FC<MyIssueCardProps> = ({ searchQuery = "" }) => {
   }
 
   return (
-    <View>
-      {filteredIssues.map((issue, index) => {
+    <View className="gap-y-5">
+      {displayedIssues.map((issue, index) => {
         const config = getStatusConfig(issue.status);
 
         return (
@@ -90,72 +90,77 @@ const MyIssueCard: React.FC<MyIssueCardProps> = ({ searchQuery = "" }) => {
                 id: issue.id,
               })
             }
-            className="flex-row bg-white rounded-2xl overflow-hidden mb-5"
-            android_ripple={{ color: "#E5E7EB" }}
+            className={`bg-white rounded-3xl border border-gray-200 overflow-hidden`}
+            android_ripple={{ color: "#f3f4f6" }}
           >
-            {/* Status Accent */}
-            <View className={`w-1.5 bg-blue-600`} />
+            <View className="flex-row items-stretch">
+              {/* Color Stripe */}
+              <View className={`w-1.5 ${config.badge}`} />
 
-            <View className="flex-1 px-4 py-5">
-              {/* Issue ID */}
-              <View className="flex-row items-center mb-2">
-                <Ionicons
-                  name="image-outline"
-                  size={14}
-                  color="#6B7280"
-                />
-                <Text className="ml-2 text-gray-500 text-xs font-medium">
-                  {`A#0536${issue.id}`}
+              <View className="flex-1 p-4 pl-3.5">
+                {/* Header ID & Date */}
+                <View className="flex-row justify-between items-center mb-3">
+                  <View className="bg-gray-50 px-2.5 py-1 rounded-lg border border-gray-100">
+                    <Text className="text-gray-500 text-xs font-semibold tracking-wide">
+                      #{issue.id}
+                    </Text>
+                  </View>
+                  <View className="flex-row items-center space-x-1.5">
+                    <Ionicons name="calendar-outline" size={13} color="#9ca3af" />
+                    <Text className="text-gray-400 text-xs font-medium">
+                      {new Date(issue.createdAt || Date.now()).toLocaleDateString()}
+                    </Text>
+                  </View>
+                </View>
+
+                {/* Title */}
+                <Text
+                  className="text-[17px] font-bold text-gray-700 leading-snug mb-1.5"
+                  numberOfLines={1}
+                >
+                  {issue.title}
                 </Text>
+
+                {/* Address */}
+                <View className="flex-row items-start mb-4">
+                  <Ionicons
+                    name="location"
+                    size={15}
+                    color="#9ca3af"
+                    style={{ marginTop: 2 }}
+                  />
+                  <Text
+                    className="text-gray-500 text-[13px] ml-1.5 flex-1 leading-5"
+                    numberOfLines={1}
+                  >
+                    {issue.address}
+                  </Text>
+                </View>
+
+                {/* Footer */}
+                <View className="flex-row justify-between items-center pt-3 border-t border-gray-100">
+
+                  <View className="flex-row items-center">
+                    <MaterialIcons
+                      name="access-time"
+                      size={14}
+                      color="#6b7280"
+                    />
+                    <Text className="text-gray-600 text-xs font-medium ml-1.5">
+                      3 days left
+                    </Text>
+                  </View>
+
+                  {/* Right Side Status Badge */}
+                  <View
+                    className={`px-2.5 py-1 rounded-full ${config.badge} flex-row items-center`}
+                  >
+                    <Text className="text-white text-[10px] font-bold tracking-wider uppercase">
+                      {config.text}
+                    </Text>
+                  </View>
+                </View>
               </View>
-
-              {/* Title */}
-              <Text
-                className="text-[15px] font-semibold text-gray-900 mb-3"
-                numberOfLines={1}
-              >
-                {issue.title}
-              </Text>
-
-              {/* Address */}
-              <View className="flex-row items-center mb-2">
-                <Ionicons
-                  name="location-outline"
-                  size={14}
-                  color="#6B7280"
-                />
-                <Text className="ml-2 text-gray-600 text-sm">
-                  {issue.address}
-                </Text>
-              </View>
-
-              <View className="flex-row items-center">
-                <MaterialIcons
-                  name="access-time"
-                  size={14}
-                  color="#6B7280"
-                />
-                <Text className="ml-2 text-gray-600 text-sm">
-                  3 days left
-                </Text>
-              </View>
-            </View>
-
-            {/* Right Side */}
-            <View className="justify-between items-end px-4 py-5">
-              <View
-                className={`px-3 py-1 rounded-full ${config.badge}`}
-              >
-                <Text className="text-white text-[11px] font-semibold">
-                  {config.text}
-                </Text>
-              </View>
-
-              <Ionicons
-                name="chevron-forward"
-                size={20}
-                color="#9CA3AF"
-              />
             </View>
           </Pressable>
         );

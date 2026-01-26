@@ -6,9 +6,9 @@ import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 
 const COLORS = {
-    primary: "#1E3A8A",
-    gradientStart: "#1E3A8A",
-    gradientEnd: "#3B82F6",
+    primary: "#3730a3", 
+    gradientStart: "#3730a3",
+    gradientEnd: "#4f46e5", 
 };
 
 const ProfileCard = () => {

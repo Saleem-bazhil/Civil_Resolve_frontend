@@ -14,7 +14,6 @@ import {
   OfficerIssues,
 } from "../imports/Imports";
 
-import { ScreenContent } from "@/components/ScreenContent";
 
 const Tab = createBottomTabNavigator();
 type Props = {
@@ -22,13 +21,29 @@ type Props = {
 }
 
 export default function BottomTabs({ role }: Props) {
-  const PRIMARY_COLOR = "hsl(221, 83%, 28%)";
+  const PRIMARY_COLOR = "#3730a3";
   const isOfficer = role === "OFFICER";
 
   return (
     <Tab.Navigator
       screenOptions={{
         headerShown: true,
+        headerTitleAlign: "center",
+        headerStyle: {
+          backgroundColor: "#ffffff",
+          elevation: 4, 
+          shadowColor: "#000",
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.05, 
+          shadowRadius: 8,
+          borderBottomWidth: 0, 
+        },
+        headerTitleStyle: {
+          fontWeight: "800", 
+          fontSize: 18,
+          color: "#0f172a", 
+          letterSpacing: 0.5,
+        },
         tabBarShowLabel: true,
 
         tabBarStyle: {
@@ -39,7 +54,7 @@ export default function BottomTabs({ role }: Props) {
           paddingTop: 8,
           borderTopWidth: 0,
 
-          // Premium elevation
+          // elevation
           elevation: 16,
           shadowColor: "#000",
           shadowOffset: { width: 0, height: -4 },
@@ -62,6 +77,7 @@ export default function BottomTabs({ role }: Props) {
         name={isOfficer ? "Home" : "Home"}
         component={isOfficer ? OfficerHome : HomeScreen}
         options={{
+          headerShown:false,
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
               name={focused ? "home" : "home-outline"}

@@ -5,59 +5,66 @@ import IssueCard from "../screenComponents/HomeScreenComponents/IssueCard";
 import MyIssueCard from "../screenComponents/IssueScreenComponents/MyIssueCard";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import HomeHeader from "../screenComponents/HomeScreenComponents/HomeHeader";
 
 const Home = () => {
   const navigation = useNavigation<any>();
   return (
-    <ScrollView
-      className="bg-background-bgcolor"
-      contentContainerStyle={{ padding: 26, paddingBottom: 90, }}
+    <>
 
-    >
-      {/* Header */}
-      <View className="my-4">
-        <Text className="text-4xl font-bold text-black">
-          Hello, Citizen 👋
-        </Text>
-        <Text className="text-sm text-gray-600 mt-2">
-          Report and track civic issues in your area
-        </Text>
-      </View>
-
-      <ReportCard />
-      <IssueCard />
-
-      {/* Recent Issue  */}
-
-      <View className="mt-10 mb-5 flex-row items-center justify-between">
-        {/* Section Title */}
-        <Text className="text-[18px] font-semibold text-gray-900 tracking-tight">
-          Recent Issues
-        </Text>
-
-        {/* Action */}
-        <Pressable
-          onPress={() => navigation.navigate("MainTabs", { screen: "Issues" })}
-          android_ripple={{ color: "#E5E7EB" }}
-          className="flex-row items-center px-2 py-1 rounded-md"
-        >
-          <Text className="text-blue-600 text-sm font-medium mr-1">
-            View All
+      <HomeHeader />
+      <ScrollView
+        className="bg-gray-50 flex-1"
+        contentContainerStyle={{ paddingHorizontal: 24, paddingTop: 30, paddingBottom: 100 }}
+        showsVerticalScrollIndicator={false}
+      >
+        {/* Header */}
+        <View className="mb-1">
+          <Text className="text-3xl font-extrabold text-gray-900 tracking-tight">
+            Hello, Citizen 👋
           </Text>
-          <Ionicons
-            name="chevron-forward"
-            size={14}
-            color="#2563EB"
-          />
-        </Pressable>
-      </View>
+          <Text className="text-base text-gray-500 font-medium mt-1 leading-relaxed">
+            Report and track civic issues in your area
+          </Text>
+        </View>
 
-      {/* Cards */}
-      <MyIssueCard />
+        <ReportCard />
+        <IssueCard />
 
+        {/* Recent Issue  */}
+        <View className="mt-10 mb-5 flex-row items-center justify-between">
+          {/* Section Title */}
+          <View>
+            <Text className="text-xl font-bold text-gray-900">
+              Recent Issues
+            </Text>
+            <Text className="text-xs text-gray-400 font-medium mt-0.5">
+              Your submissions
+            </Text>
+          </View>
 
+          {/* Action */}
+          <Pressable
+            onPress={() => navigation.navigate("MainTabs", { screen: "Issues" })}
+            android_ripple={{ color: "#bfdbfe" }}
+            className="flex-row items-center bg-blue-50 px-3 py-1.5 rounded-full active:bg-blue-100"
+          >
+            <Text className="text-blue-600 text-xs font-bold mr-1 uppercase tracking-wide">
+              View All
+            </Text>
+            <Ionicons
+              name="arrow-forward"
+              size={14}
+              color="#2563EB"
+            />
+          </Pressable>
+        </View>
 
-    </ScrollView>
+        {/* Cards */}
+        <MyIssueCard limit={3} />
+
+      </ScrollView>
+    </>
   );
 };
 

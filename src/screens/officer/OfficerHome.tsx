@@ -7,6 +7,7 @@ import { RootStackParamList } from '../../navigation/types';
 import OfficerReportCard from '../../screenComponents/officerComponents/OfficerAssignedIssue';
 import OfficerIssueCard from '../../screenComponents/officerComponents/OfficerIssueCard';
 import api from '../../api/Axios';
+import HomeHeader from '../../screenComponents/HomeScreenComponents/HomeHeader';
 
 const OfficerHome = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
@@ -22,6 +23,8 @@ const OfficerHome = () => {
   }, [])
 
   return (
+    <>
+    <HomeHeader/>
     <ScrollView
       className="bg-gray-50 flex-1"
       contentContainerStyle={{ paddingHorizontal: 24, paddingBottom: 100 }}
@@ -72,6 +75,7 @@ const OfficerHome = () => {
       <OfficerIssueCard />
 
     </ScrollView>
+    </>
   )
 }
 

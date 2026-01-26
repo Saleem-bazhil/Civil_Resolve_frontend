@@ -1,7 +1,6 @@
 import { View, Text, Pressable } from "react-native";
 import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
-import AntDesign from "@expo/vector-icons/AntDesign";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
@@ -9,42 +8,49 @@ const ReportCard = () => {
     const navigation = useNavigation<any>();
 
     return (
-        <View className="mt-8 rounded-2xl overflow-hidden shadow-lg">
+        <View className="mt-8 rounded-3xl overflow-hidden shadow-xl shadow-blue-900/20">
             <LinearGradient
-                colors={["#1E3A8A", "#3B5FBF"]}
+                colors={["#312e81", "#4f46e5"]}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 1 }}
-                className="p-6"
+                className="p-7 relative"
             >
+                {/* background circle */}
+                <View className="absolute -right-6 -top-6 bg-white/5 rounded-full h-32 w-32" />
 
-                <View className="flex-row justify-between items-start mb-6">
-                    <View className="flex-1 pr-4">
-                        <Text className="text-xl font-semibold text-white">
+                <View className="flex-row justify-between items-start mb-8">
+                    <View className="flex-1 pr-6">
+                        <View className="bg-indigo-400/20 self-start px-3 py-1 rounded-full mb-3 border border-indigo-300/30">
+                            <Text className="text-indigo-200 text-[10px] font-bold uppercase tracking-widest">
+                                Civic Action
+                            </Text>
+                        </View>
+                        <Text className="text-2xl font-bold text-white leading-tight">
                             Report a Problem
                         </Text>
 
-                        <Text className="text-sm text-white/90 mt-2 leading-5">
-                            Help improve your community by reporting civic issues quickly
+                        <Text className="text-sm text-slate-300 mt-2 leading-relaxed font-medium">
+                            Spot an issue? Help us improve your community by reporting it instantly.
                         </Text>
                     </View>
 
-                    <View className="bg-white/25 rounded-2xl h-14 w-14 items-center justify-center">
+                    <View className="bg-white/10 p-3 rounded-2xl border border-white/5 shadow-inner">
                         <Ionicons
-                            name="document-text-outline"
-                            size={26}
-                            color="white"
+                            name="megaphone-outline"
+                            size={28}
+                            color="#93c5fd"
                         />
                     </View>
                 </View>
 
                 <Pressable
                     onPress={() => navigation.navigate("Report a Problem")}
-                    className="flex-row items-center gap-2 self-start bg-white/25 px-5 py-3 rounded-full active:opacity-80"
+                    className="flex-row items-center justify-center bg-white px-6 py-4 rounded-xl shadow-sm active:scale-95 transition-transform"
                 >
-                    <AntDesign name="plus" size={18} color="white" />
-                    <Text className="text-white font-semibold text-sm">
-                        Report Now
+                    <Text className="text-slate-900 font-bold text-sm mr-2.5">
+                        Start Report
                     </Text>
+                    <Ionicons name="arrow-forward" size={18} color="#0f172a" />
                 </Pressable>
             </LinearGradient>
         </View>
