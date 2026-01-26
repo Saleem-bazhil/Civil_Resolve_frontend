@@ -35,7 +35,7 @@ export default function BottomTabs({ role }: Props) {
           position: "absolute",
           backgroundColor: "#f8fafc",
           height: Platform.OS === "ios" ? 88 : 72,
-          paddingBottom: Platform.OS === "ios" ? 24 : 10,
+          paddingBottom: Platform.OS === "ios" ? 24 : 34,
           paddingTop: 8,
           borderTopWidth: 0,
 
@@ -89,32 +89,34 @@ export default function BottomTabs({ role }: Props) {
       />
 
       {/* plus tab  */}
-      <Tab.Screen
-        name="Report a Problem"
-        component={ReportIssueScreen}
-        options={{
-          // headerShown:false,
-          tabBarLabel: "",
-          tabBarIcon: () => (
-            <View className="absolute -top-6 items-center justify-center">
-              <View
-                className="w-16 h-16 rounded-full items-center justify-center border-[4px] border-white"
-                style={{
-                  backgroundColor: PRIMARY_COLOR,
-                  shadowColor: PRIMARY_COLOR,
-                  shadowOffset: { width: 0, height: 6 },
-                  shadowOpacity: 0.35,
-                  shadowRadius: 10,
-                  elevation: 20,
-                }}
-              >
-                <AntDesign name="plus" size={28} color="white" />
+      {!isOfficer && (
+        <Tab.Screen
+          name="Report a Problem"
+          component={ReportIssueScreen}
+          options={{
+            // headerShown:false,
+            tabBarLabel: "",
+            tabBarIcon: () => (
+              <View className="absolute -top-6 items-center justify-center">
+                <View
+                  className="w-16 h-16 rounded-full items-center justify-center border-[4px] border-white"
+                  style={{
+                    backgroundColor: PRIMARY_COLOR,
+                    shadowColor: PRIMARY_COLOR,
+                    shadowOffset: { width: 0, height: 6 },
+                    shadowOpacity: 0.35,
+                    shadowRadius: 10,
+                    elevation: 20,
+                  }}
+                >
+                  <AntDesign name="plus" size={28} color="white" />
+                </View>
               </View>
-            </View>
-          ),
-        }}
-      />
+            ),
+          }}
+        />
 
+      )}
       {/* Alerts */}
       <Tab.Screen
         name="Alerts"

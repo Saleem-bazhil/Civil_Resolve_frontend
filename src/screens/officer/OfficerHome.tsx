@@ -1,62 +1,77 @@
-import { View, Text ,ScrollView , Pressable} from 'react-native'
-import React from 'react'
+import { View, Text, ScrollView, Pressable } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-  import OfficerReportCard from '../../screenComponents/officerComponents/OfficerAssignedIssue';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../navigation/types';
+import OfficerReportCard from '../../screenComponents/officerComponents/OfficerAssignedIssue';
 import OfficerIssueCard from '../../screenComponents/officerComponents/OfficerIssueCard';
+import api from '../../api/Axios';
+
 const OfficerHome = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const [profile, setProfile] = useState<any>({});
+  useEffect(() => {
+    api.get("users/profile")
+      .then((res) => {
+        setProfile(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+  }, [])
+
   return (
     <ScrollView
-        className="bg-background-bgcolor"
-        contentContainerStyle={{ padding: 26, paddingBottom: 90, }}
-  
-      >
-        {/* Header */}
-        <View className="my-4">
-          <Text className="text-4xl font-bold text-black">
-            Hello, Officer 👋
+      className="bg-gray-50 flex-1"
+      contentContainerStyle={{ paddingHorizontal: 24, paddingBottom: 100 }}
+      showsVerticalScrollIndicator={false}
+    >
+      {/* Header */}
+      <View className="my-8 mt-12">
+        <View className="flex-row items-center justify-between mb-2">
+          <Text className="text-3xl font-extrabold text-gray-900 tracking-tight">
+            Hello, {profile.firstname || 'Officer'} 👋
           </Text>
-          <Text className="text-sm text-gray-600 mt-2">
-            Report and track civic issues in your area
-          </Text>
+
         </View>
-  
-        <OfficerReportCard />
-   
-  
-        {/* Recent Issue  */}
-  
-        <View className="mt-10 mb-5 flex-row items-center justify-between">
-          {/* Section Title */}
-          <Text className="text-[18px] font-semibold text-gray-900 tracking-tight">
+        <Text className="text-base text-gray-500 font-medium leading-relaxed">
+          Here's your daily summary and assigned tasks.
+        </Text>
+      </View>
+
+      <OfficerReportCard />
+
+      {/* Recent Issues Section */}
+      <View className="mt-8 mb-6 flex-row items-center justify-between">
+        <View>
+          <Text className="text-xl font-bold text-gray-900">
             Requires Attention
           </Text>
-  
-          {/* Action */}
-          <Pressable
-            // onPress={() => navigation.navigate("MainTabs", { screen: "Issues" })}
-            android_ripple={{ color: "#E5E7EB" }}
-            className="flex-row items-center px-2 py-1 rounded-md"
-          >
-            <Text className="text-blue-600 text-sm font-medium mr-1">
-              View All
-            </Text>
-            <Ionicons
-              name="chevron-forward"
-              size={14}
-              color="#2563EB"
-            />
-          </Pressable>
+          <Text className="text-xs text-gray-400 font-medium mt-0.5">
+            Latest assignments
+          </Text>
         </View>
-  
-        {/* Cards */}
-        {/* <MyIssueCard /> */}
-        <OfficerIssueCard/>
-  
-  
-  
-      </ScrollView>
+
+        <Pressable
+          onPress={() => navigation.navigate("MainTabs", { screen: "Issues" })}
+          android_ripple={{ color: "#E5E7EB" }}
+          className="flex-row items-center bg-blue-50 px-3 py-1.5 rounded-full active:bg-blue-100"
+        >
+          <Text className="text-blue-600 text-xs font-bold mr-1 uppercase tracking-wide">
+            View All
+          </Text>
+          <Ionicons
+            name="arrow-forward"
+            size={12}
+            color="#2563EB"
+          />
+        </Pressable>
+      </View>
+
+      <OfficerIssueCard />
+
+    </ScrollView>
   )
 }
 

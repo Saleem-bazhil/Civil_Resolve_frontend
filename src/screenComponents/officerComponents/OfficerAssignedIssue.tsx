@@ -1,7 +1,7 @@
 import { View, Text } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
-import { useFocusEffect } from "@react-navigation/native";
+import { LinearGradient } from "expo-linear-gradient";
 import api from "../../api/Axios";
 
 const OfficerAssignedIssue = () => {
@@ -12,97 +12,148 @@ const OfficerAssignedIssue = () => {
         resolved: 0
     });
 
-    useFocusEffect(
-        React.useCallback(() => {
-            fetchStats();
-        }, [])
-    );
+    useEffect(() => {
+        fetchStats();
+    }, []);
 
     const fetchStats = async () => {
         try {
-            const response = await api.get("/issues/stats");
-            setStats(response.data);
+            const response = await api.get("/issues");
+            const issues = response.data;
+            const newStats = issues.reduce(
+                (acc: any, issue: any) => {
+                    acc.total++;
+                    if (issue.status === "OPEN") acc.open++;
+                    else if (issue.status === "IN_PROGRESS") acc.inProgress++;
+                    else if (issue.status === "RESOLVED") acc.resolved++;
+                    return acc;
+                },
+                { total: 0, open: 0, inProgress: 0, resolved: 0 }
+            );
+            setStats(newStats);
         } catch (error) {
             console.error("Error fetching stats:", error);
         }
     };
 
     return (
-        <View className="flex-row flex-wrap gap-4 mt-6">
+        <View className="flex-row flex-wrap justify-between gap-y-4">
             {/* Total Issues */}
-            <View className="w-[48%] bg-white rounded-2xl p-5 shadow-md">
-                <View className="flex-row justify-between items-center">
-                    <Text className="text-gray-500 text-sm font-medium">
+            <View className="w-[48%] shadow-sm rounded-2xl">
+                <LinearGradient
+                    colors={["#ffffff", "#f8fafc"]}
+                    className="p-5 border border-gray-100"
+                    style={{ borderRadius: 16 }}
+                >
+                    <View className="flex-row justify-between items-start mb-4">
+                        <View className="bg-gray-100 p-2.5 rounded-2xl">
+                            <Ionicons
+                                name="layers-outline"
+                                size={22}
+                                color="#1e293b"
+                            />
+                        </View>
+                        <Text className="text-4xl font-bold text-gray-900">
+                            {stats.total}
+                        </Text>
+                    </View>
+                    <Text className="text-gray-500 font-medium text-sm">
                         Total Issues
                     </Text>
-                    <View className="bg-gray-200/70 rounded-full p-2">
-                        <Ionicons
-                            name="document-text-outline"
-                            size={18}
-                            color="#111827"
-                        />
-                    </View>
-                </View>
-                <Text className="text-3xl font-bold mt-4 text-gray-900">
-                    {stats.total}
-                </Text>
+                    <Text className="text-gray-400 text-xs mt-1">
+                        All assignments
+                    </Text>
+                </LinearGradient>
             </View>
 
             {/* Pending (Open) */}
-            <View className="w-[48%] bg-orange-400 rounded-2xl p-5">
-                <View className="flex-row justify-between items-center">
-                    <Text className="text-white/90 text-sm font-semibold">
+            <View className="w-[48%] shadow-lg shadow-orange-200/50 rounded-2xl">
+                <LinearGradient
+                    colors={["#fb923c", "#ea580c"]}
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 1, y: 1 }}
+                    className="p-5"
+                    style={{ borderRadius: 16 }}
+                >
+                    <View className="flex-row justify-between items-start mb-4">
+                        <View className="bg-white/20 p-2.5 rounded-2xl backdrop-blur-md">
+                            <Ionicons
+                                name="time-outline"
+                                size={22}
+                                color="#ffffff"
+                            />
+                        </View>
+                        <Text className="text-4xl font-bold text-white">
+                            {stats.open}
+                        </Text>
+                    </View>
+                    <Text className="text-white/90 font-medium text-sm">
                         Pending
                     </Text>
-                    <View className="bg-white/25 rounded-full p-2">
-                        <Ionicons
-                            name="time-outline"
-                            size={18}
-                            color="white"
-                        />
-                    </View>
-                </View>
-                <Text className="text-3xl font-bold text-white mt-4">
-                    {stats.open}
-                </Text>
+                    <Text className="text-white/60 text-xs mt-1">
+                        Needs attention
+                    </Text>
+                </LinearGradient>
             </View>
 
             {/* In Progress */}
-            <View className="w-[48%] bg-white rounded-2xl p-5 shadow-md">
-                <View className="flex-row justify-between items-center">
-                    <Text className="text-gray-500 text-sm font-medium">
+            <View className="w-[48%] shadow-lg shadow-blue-200/50 rounded-2xl">
+                <LinearGradient
+                    colors={["#3b82f6", "#2563eb"]}
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 1, y: 1 }}
+                    className="p-5"
+                    style={{ borderRadius: 16 }}
+                >
+                    <View className="flex-row justify-between items-start mb-4">
+                        <View className="bg-white/20 p-2.5 rounded-2xl backdrop-blur-md">
+                            <Ionicons
+                                name="construct-outline"
+                                size={22}
+                                color="#ffffff"
+                            />
+                        </View>
+                        <Text className="text-4xl font-bold text-white">
+                            {stats.inProgress}
+                        </Text>
+                    </View>
+                    <Text className="text-white/90 font-medium text-sm">
                         In Progress
                     </Text>
-                    <View className="bg-gray-200/70 rounded-full p-2">
-                        <Ionicons
-                            name="alert-circle-outline"
-                            size={18}
-                            color="#111827"
-                        />
-                    </View>
-                </View>
-                <Text className="text-3xl font-bold mt-4 text-gray-900">
-                    {stats.inProgress}
-                </Text>
+                    <Text className="text-white/60 text-xs mt-1">
+                        Currently working
+                    </Text>
+                </LinearGradient>
             </View>
 
             {/* Resolved */}
-            <View className="w-[48%] bg-green-500 rounded-2xl p-5">
-                <View className="flex-row justify-between items-center">
-                    <Text className="text-white/90 text-sm font-semibold">
+            <View className="w-[48%] shadow-lg shadow-green-200/50 rounded-2xl">
+                <LinearGradient
+                    colors={["#22c55e", "#16a34a"]}
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 1, y: 1 }}
+                    className="p-5"
+                    style={{ borderRadius: 16 }}
+                >
+                    <View className="flex-row justify-between items-start mb-4">
+                        <View className="bg-white/20 p-2.5 rounded-2xl backdrop-blur-md">
+                            <Ionicons
+                                name="checkmark-circle-outline"
+                                size={22}
+                                color="#ffffff"
+                            />
+                        </View>
+                        <Text className="text-4xl font-bold text-white">
+                            {stats.resolved}
+                        </Text>
+                    </View>
+                    <Text className="text-white/90 font-medium text-sm">
                         Resolved
                     </Text>
-                    <View className="bg-white/25 rounded-full p-2">
-                        <Ionicons
-                            name="checkmark-circle-outline"
-                            size={18}
-                            color="white"
-                        />
-                    </View>
-                </View>
-                <Text className="text-3xl font-bold text-white mt-4">
-                    {stats.resolved}
-                </Text>
+                    <Text className="text-white/60 text-xs mt-1">
+                        Completed tasks
+                    </Text>
+                </LinearGradient>
             </View>
         </View>
     );

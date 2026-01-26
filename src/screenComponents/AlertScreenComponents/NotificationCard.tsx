@@ -18,13 +18,7 @@ const NotificationCard: React.FC<NotificationCardProps> = ({ notification }) => 
         <TouchableOpacity activeOpacity={0.9} className="my-2">
             <View
                 className={`bg-white rounded-2xl border ${notification.read ? "border-gray-100" : "border-blue-100 bg-blue-50/30"} flex-row overflow-hidden`}
-                style={{
-                    shadowColor: "#1E3A8A",
-                    shadowOffset: { width: 0, height: 4 },
-                    shadowOpacity: 0.05,
-                    shadowRadius: 8,
-                    elevation: 2,
-                }}
+
             >
 
                 <LinearGradient
