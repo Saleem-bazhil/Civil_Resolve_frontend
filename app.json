@@ -14,7 +14,7 @@
     "icon": "./assets/civil_app_logo.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/civil_app_logo.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -26,10 +26,10 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/civil_app_logo.png",
         "backgroundColor": "#ffffff"
       },
-      "versionCode": 5,
+      "versionCode": 6,
       "package": "com.bazhil.civilresolve"
     },
     "extra": {
