@@ -11,6 +11,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import api from "../../api/Axios";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const SectionHeader = ({ icon, title }: { icon: keyof typeof Ionicons.glyphMap; title: string }) => (
   <View className="flex-row items-center mb-3">
@@ -78,34 +79,37 @@ const HeaderBackground = () => (
   </View>
 );
 
-const ActionFooter = ({ onPress }: { onPress: () => void }) => (
-  <View
-    className="bg-white px-6 pt-5 pb-8 border-t border-gray-100"
-    style={{ elevation: 15 }}
-  >
-    <Pressable
-      onPress={onPress}
-      className="rounded-2xl overflow-hidden"
-      style={{
-        elevation: 5,
-        shadowColor: "#16A34A",
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.3,
-        shadowRadius: 5,
-      }}
+const ActionFooter = ({ onPress }: { onPress: () => void }) => {
+  const insets = useSafeAreaInsets();
+  return (
+    <View
+      className="bg-white px-6 pt-5 border-t border-gray-100"
+      style={{ elevation: 15, paddingBottom: insets.bottom + 6  }}
     >
-      <LinearGradient
-        colors={["#1E3A8A", "#2563EB"]}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
-        className="h-14 items-center justify-center flex-row"
+      <Pressable
+        onPress={onPress}
+        className="rounded-2xl overflow-hidden"
+        style={{
+          elevation: 5,
+          shadowColor: "#000",
+          shadowOffset: { width: 0, height: 4 },
+          shadowOpacity: 0.3,
+          shadowRadius: 5,
+        }}
       >
-        <Text className="text-white font-bold text-lg mr-2">Submit Report</Text>
-        <Ionicons name="checkmark-circle-outline" size={22} color="white" />
-      </LinearGradient>
-    </Pressable>
-  </View>
-);
+        <LinearGradient
+          colors={["#1E3A8A", "#2563EB"]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          className="h-14 items-center justify-center flex-row"
+        >
+          <Text className="text-white font-bold text-lg mr-2">Submit Report</Text>
+          <Ionicons name="checkmark-circle-outline" size={22} color="white" />
+        </LinearGradient>
+      </Pressable>
+    </View>
+  );
+};
 // before upper code are components of the review page
 // -----------------------------------------------------------------------------------------
 // this is the review page post request to the backend
@@ -122,40 +126,40 @@ const ReviewPage = () => {
   const landmark = params?.landmark || "";
 
 
- const handleSubmit = async () => {
-  try {
-    const formData = new FormData();
+  const handleSubmit = async () => {
+    try {
+      const formData = new FormData();
 
-    formData.append("title", title);
-    formData.append("description", description);
-    formData.append("category", category);
-    formData.append("address", address);
-    formData.append("area", address);
-    if (landmark) formData.append("landmark", landmark);
+      formData.append("title", title);
+      formData.append("description", description);
+      formData.append("category", category);
+      formData.append("address", address);
+      formData.append("area", address);
+      if (landmark) formData.append("landmark", landmark);
 
-    // IMAGE UPLOAD (CRITICAL CHANGE)
-    if (images.length > 0) {
-      const img = images[0];
-      formData.append("image", {
-        uri: img.uri,
-        name: "issue.jpg",
-        type: "image/jpeg",
-      } as any);
+      // IMAGE UPLOAD (CRITICAL CHANGE)
+      if (images.length > 0) {
+        const img = images[0];
+        formData.append("image", {
+          uri: img.uri,
+          name: "issue.jpg",
+          type: "image/jpeg",
+        } as any);
+      }
+
+      await api.post("/issues", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      alert("Report submitted successfully!");
+      navigation.navigate("MainTabs");
+    } catch (error: any) {
+      console.error(error);
+      alert("Failed to submit issue");
     }
-
-    await api.post("/issues", formData, {
-     headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-
-    alert("Report submitted successfully!");
-    navigation.navigate("MainTabs");
-  } catch (error: any) {
-    console.error(error);
-    alert("Failed to submit issue");
-  }
-};
+  };
 
 
   return (

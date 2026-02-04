@@ -14,7 +14,10 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation, useRoute } from "@react-navigation/native";
 
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+
 const DescribeForm = () => {
+  const insets = useSafeAreaInsets();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [images, setImages] = useState<any[]>([]);
@@ -163,8 +166,9 @@ const DescribeForm = () => {
 
         {/* Sticky Footer */}
         <View
-          className="bg-white px-6 pt-5 pb-8 border-t border-gray-100"
+          className="bg-white px-6 pt-5 border-t border-gray-100"
           style={{
+            paddingBottom: insets.bottom + 6,
             elevation: 20,
             shadowColor: "#000",
             shadowOffset: { width: 0, height: -2 },

@@ -12,9 +12,12 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
 import UseCurrentLocation from "./UseCurrentLocation";
-import { useNavigation ,useRoute} from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
+
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const AddressForm = () => {
+    const insets = useSafeAreaInsets();
     const [address, setAddress] = useState("");
     const [landmark, setLandmark] = useState("");
     const [focusedField, setFocusedField] = useState<string | null>(null);
@@ -22,9 +25,9 @@ const AddressForm = () => {
     const navigation = useNavigation<any>();
     const route = useRoute<any>();
     const handleSubmit = () => {
-        navigation.navigate("ReviewPage",{
-             ...route.params, 
-            address,landmark
+        navigation.navigate("ReviewPage", {
+            ...route.params,
+            address, landmark
         });
     };
 
@@ -92,8 +95,8 @@ const AddressForm = () => {
 
                             <View
                                 className={`flex-row items-center bg-gray-50 border rounded-2xl px-4 h-14 ${focusedField === "address"
-                                        ? "border-blue-600 bg-blue-50"
-                                        : "border-gray-200"
+                                    ? "border-blue-600 bg-blue-50"
+                                    : "border-gray-200"
                                     }`}
                             >
                                 <Ionicons
@@ -125,8 +128,8 @@ const AddressForm = () => {
 
                             <View
                                 className={`flex-row items-center bg-gray-50 border rounded-2xl px-4 h-14 ${focusedField === "landmark"
-                                        ? "border-blue-600 bg-blue-50"
-                                        : "border-gray-200"
+                                    ? "border-blue-600 bg-blue-50"
+                                    : "border-gray-200"
                                     }`}
                             >
                                 <Ionicons
@@ -154,8 +157,8 @@ const AddressForm = () => {
 
                 {/* Footer */}
                 <View
-                    className="bg-white px-6 pt-5 pb-8 border-t border-gray-100"
-                    style={{ elevation: 15 }}
+                    className="bg-white px-6 pt-5 border-t border-gray-100"
+                    style={{ elevation: 15, paddingBottom: insets.bottom + 8 }}
                 >
                     <Pressable
                         onPress={handleSubmit}

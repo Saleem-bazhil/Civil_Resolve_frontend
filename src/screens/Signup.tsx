@@ -1,3 +1,4 @@
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import {
     View,
     Text,
@@ -17,6 +18,7 @@ import api from "../api/Axios";
 
 const Signup = () => {
     const navigation = useNavigation<any>();
+    const insets = useSafeAreaInsets();
 
     const [focusedField, setFocusedField] = useState<string | null>(null);
 
@@ -258,7 +260,10 @@ const Signup = () => {
                 </ScrollView>
 
                 {/* signup button */}
-                <View className="bg-white px-6 pt-5 pb-8 border-t border-gray-100">
+                <View
+                    className="bg-white px-6 pt-5 border-t border-gray-100"
+                    style={{ paddingBottom: insets.bottom + 6 }}
+                >
                     <Pressable
                         onPress={handleSignup}
                         disabled={loading}

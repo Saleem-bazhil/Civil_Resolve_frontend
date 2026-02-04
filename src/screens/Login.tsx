@@ -1,3 +1,4 @@
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import {
     View,
     Text,
@@ -24,6 +25,7 @@ type JwtPayload = {
 };
 
 const Login = () => {
+    const insets = useSafeAreaInsets();
     const navigation = useNavigation<any>();
 
     const [focusedField, setFocusedField] = useState<string | null>(null);
@@ -62,7 +64,7 @@ const Login = () => {
         } catch (error: any) {
             // console.error("Login error:", error.response?.data || error.message);
             Alert.alert(
-             "Email or password invalid. Please try again"
+                "Email or password invalid. Please try again"
             );
         } finally {
             setLoading(false);
@@ -195,7 +197,10 @@ const Login = () => {
                 </ScrollView>
 
                 {/* LOGIN BUTTON */}
-                <View className="bg-white px-6 py-6 border-t border-gray-100">
+                <View
+                    className="bg-white px-6 pt-6 border-t border-gray-100"
+                    style={{ paddingBottom: insets.bottom + 6 }}
+                >
                     <Pressable
                         onPress={handleLogin}
                         disabled={loading}
