@@ -3,6 +3,7 @@ import { View, Platform } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import AntDesign from "@expo/vector-icons/AntDesign";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import {
   HomeScreen,
@@ -23,6 +24,7 @@ type Props = {
 export default function BottomTabs({ role }: Props) {
   const PRIMARY_COLOR = "#3730a3";
   const isOfficer = role === "OFFICER";
+  const insets = useSafeAreaInsets();
 
   return (
     <Tab.Navigator
@@ -31,27 +33,27 @@ export default function BottomTabs({ role }: Props) {
         headerTitleAlign: "center",
         headerStyle: {
           backgroundColor: "#ffffff",
-          elevation: 4, 
+          elevation: 4,
           shadowColor: "#000",
           shadowOffset: { width: 0, height: 2 },
-          shadowOpacity: 0.05, 
+          shadowOpacity: 0.05,
           shadowRadius: 8,
-          borderBottomWidth: 0, 
+          borderBottomWidth: 0,
         },
         headerTitleStyle: {
-          fontWeight: "800", 
+          fontWeight: "800",
           fontSize: 18,
-          color: "#0f172a", 
+          color: "#0f172a",
           letterSpacing: 0.5,
         },
         tabBarShowLabel: true,
 
         tabBarStyle: {
-          position: "absolute",
-          backgroundColor: "#f8fafc",
-          height: Platform.OS === "ios" ? 88 : 72,
-          paddingBottom: Platform.OS === "ios" ? 24 : 34,
-          paddingTop: 8,
+          // position: "absolute",
+          backgroundColor: "#ffffff",
+          height: 60 + insets.bottom,
+          paddingBottom: insets.bottom > 0 ? insets.bottom : 8,
+          paddingTop: 6,
           borderTopWidth: 0,
 
           // elevation
@@ -77,7 +79,7 @@ export default function BottomTabs({ role }: Props) {
         name={isOfficer ? "Home" : "Home"}
         component={isOfficer ? OfficerHome : HomeScreen}
         options={{
-          headerShown:false,
+          headerShown: false,
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
               name={focused ? "home" : "home-outline"}
@@ -119,10 +121,10 @@ export default function BottomTabs({ role }: Props) {
                   style={{
                     backgroundColor: PRIMARY_COLOR,
                     shadowColor: PRIMARY_COLOR,
-                    shadowOffset: { width: 0, height: 6 },
-                    shadowOpacity: 0.35,
-                    shadowRadius: 10,
-                    elevation: 20,
+                    shadowOffset: { width: 0, height: 4 },
+                    shadowOpacity: 0.25,
+                    shadowRadius: 8,
+                    elevation: 5,
                   }}
                 >
                   <AntDesign name="plus" size={28} color="white" />

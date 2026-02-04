@@ -122,28 +122,41 @@ const ReviewPage = () => {
   const landmark = params?.landmark || "";
 
 
-  const handleSubmit = async () => {
-    try {
-      const imageUrl = images.length > 0 ? (images[0].uri || images[0]) : "";
+ const handleSubmit = async () => {
+  try {
+    const formData = new FormData();
 
-      const payload = {
-        title,
-        description,
-        category,
-        address,
-        landmark,
-        area: address, // map address
-        imageUrl
-      };
+    formData.append("title", title);
+    formData.append("description", description);
+    formData.append("category", category);
+    formData.append("address", address);
+    formData.append("area", address);
+    if (landmark) formData.append("landmark", landmark);
 
-      await api.post("/issues", payload);
-      alert("Report submitted successfully!");
-      navigation.navigate("MainTabs");
-
-    } catch (error) {
-      alert("Failed to submit report. Please try again.");
+    // IMAGE UPLOAD (CRITICAL CHANGE)
+    if (images.length > 0) {
+      const img = images[0];
+      formData.append("image", {
+        uri: img.uri,
+        name: "issue.jpg",
+        type: "image/jpeg",
+      } as any);
     }
-  };
+
+    await api.post("/issues", formData, {
+     headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    alert("Report submitted successfully!");
+    navigation.navigate("MainTabs");
+  } catch (error: any) {
+    console.error(error);
+    alert("Failed to submit issue");
+  }
+};
+
 
   return (
     <View className="flex-1 bg-gray-50">

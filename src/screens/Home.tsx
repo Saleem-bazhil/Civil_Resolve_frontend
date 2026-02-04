@@ -15,7 +15,7 @@ const Home = () => {
       <HomeHeader />
       <ScrollView
         className="bg-gray-50 flex-1"
-        contentContainerStyle={{ paddingHorizontal: 24, paddingTop: 30, paddingBottom: 100 }}
+        contentContainerStyle={{ paddingHorizontal: 24, paddingTop: 30, paddingBottom: 30 }}
         showsVerticalScrollIndicator={false}
       >
         {/* Header */}

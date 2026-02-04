@@ -1,7 +1,9 @@
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export const BASEURL = process.env.EXPO_PUBLIC_API_BASE_URL || "http://localhost:3000";
+export const BASEURL = process.env.EXPO_PUBLIC_API_BASE_URL;
+// export const BASEURL = "http://localhost:3000";
+
 
 const API = axios.create({
   baseURL: BASEURL,
@@ -18,6 +20,7 @@ API.interceptors.request.use(
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
       }
+
     } catch (error) {
       console.error('Error retrieving token:', error);
     }

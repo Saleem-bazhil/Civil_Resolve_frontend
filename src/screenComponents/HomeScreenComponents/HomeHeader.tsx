@@ -28,11 +28,9 @@ const HomeHeader = () => {
 
                     <View className='ml-2'>
                         <Text className="text-lg font-extrabold text-slate-900">
-                            CivicResolve
+                           Bazhil CivicResolve
                         </Text>
-                        <Text className="text-xs font-bold text-slate-400 uppercase">
-                            Official Portal
-                        </Text>
+                    
                     </View>
                 </View>
 

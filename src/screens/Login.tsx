@@ -60,10 +60,9 @@ const Login = () => {
 
 
         } catch (error: any) {
-            console.error("Login error:", error.response?.data || error.message);
+            // console.error("Login error:", error.response?.data || error.message);
             Alert.alert(
-                "Error",
-                error.response?.data?.message || "Email or password invalid. Please try again"
+             "Email or password invalid. Please try again"
             );
         } finally {
             setLoading(false);

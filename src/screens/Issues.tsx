@@ -9,7 +9,7 @@ const Issues = () => {
   return (
     <ScrollView
       className="bg-background-bgcolor"
-      contentContainerStyle={{ padding: 26, paddingBottom: 90, }}
+      contentContainerStyle={{ padding: 26, paddingBottom: 30, }}
     >
       <SearchBar
         value={searchQuery}

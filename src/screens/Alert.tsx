@@ -29,7 +29,7 @@ const Alert = () => {
   return (
     <ScrollView
       className="bg-background"
-      contentContainerStyle={{ padding: 26, paddingBottom: 90, }}
+      contentContainerStyle={{ padding: 26, paddingBottom: 30, }}
     >
       <View className="flex-row justify-between items-center mb-6">
         <Text className='text-3xl font-bold text-slate-900'>Notifications</Text>

@@ -8,12 +8,12 @@ const Profile = () => {
   return (
     <ScrollView
       className="bg-background"
-      contentContainerStyle={{ padding: 26, paddingBottom: 100, }}
+      contentContainerStyle={{ padding: 26, paddingBottom: 30, }}
 
     >
       <ProfileCard />
-      <AllProfileDetail/>
-      <SignOut/>
+      <AllProfileDetail />
+      <SignOut />
     </ScrollView>
 
   )
