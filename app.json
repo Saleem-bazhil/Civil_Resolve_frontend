@@ -29,7 +29,7 @@
         "foregroundImage": "./assets/civil_app_logo.png",
         "backgroundColor": "#ffffff"
       },
-      "versionCode": 6,
+      "versionCode": 7,
       "package": "com.bazhil.civilresolve"
     },
     "extra": {
